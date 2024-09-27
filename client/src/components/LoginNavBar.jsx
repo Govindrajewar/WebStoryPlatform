@@ -1,20 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../style/components/LoginNavBar.css";
-import { useNavigate } from "react-router-dom";
 import bookmark from "../assets/HomePage/LoginNavBar/bookmark.jpg";
 import hamburger from "../assets/HomePage/LoginNavBar/hamburger.png";
 import AddStory from "./AddStory.jsx";
 
 function LoginNavBar({ setIsLoggedIn, setIsShowBookmarks }) {
-  const navigate = useNavigate();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [isAddingStory, setIsAddingStory] = useState(false);
+  const [currentUser, selectedUser] = useState("");
 
   const handleLogout = () => {
     alert("Logout Successful");
     setIsLoggedIn(false);
-    localStorage.setItem("IsLoggedIn", false);
-    navigate("/");
+    localStorage.removeItem("IsLoggedIn");
+    localStorage.removeItem("currentUser");
   };
 
   const handleHamburger = () => {
@@ -27,12 +26,16 @@ function LoginNavBar({ setIsLoggedIn, setIsShowBookmarks }) {
 
   const handleProfilePage = () => {
     setIsShowBookmarks(false);
-    // navigate("/");
   };
 
   const handleAddStory = () => {
     setIsAddingStory(true);
   };
+
+  useEffect(() => {
+    const currentUser = localStorage.getItem("currentUser");
+    selectedUser(currentUser);
+  }, []);
 
   return (
     <div className="login-navbar">
@@ -49,7 +52,7 @@ function LoginNavBar({ setIsLoggedIn, setIsShowBookmarks }) {
       {isLoggingOut && (
         <>
           <div className="logOut-div">
-            <div className="current-user">Your Name</div>
+            <div className="current-user">{currentUser}</div>
             <div className="logout-btn" onClick={handleLogout}>
               Logout
             </div>
@@ -57,7 +60,7 @@ function LoginNavBar({ setIsLoggedIn, setIsShowBookmarks }) {
         </>
       )}
 
-      {isAddingStory && <AddStory setIsAddingStory={setIsAddingStory}/>}
+      {isAddingStory && <AddStory setIsAddingStory={setIsAddingStory} />}
     </div>
   );
 }

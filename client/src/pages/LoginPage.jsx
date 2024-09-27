@@ -21,6 +21,7 @@ function LoginPage() {
       if (response.data.success) {
         setErrorMessage("");
         localStorage.setItem("IsLoggedIn", true);
+        localStorage.setItem("currentUser", email);
         navigate("/");
       } else {
         setErrorMessage(response.data.message);
