@@ -30,9 +30,15 @@ function AddStory() {
   // Function to handle removing a slide
   const removeSlide = (index) => {
     if (slides.length > 3) {
-      const newSlides = slides.filter((slide, i) => i !== index);
+      let newSlides = slides.filter((_, i) => i !== index);
+
+      newSlides = newSlides.map((slide, i) => ({
+        ...slide,
+        id: i + 1,
+      }));
+
       setSlides(newSlides);
-      if (activeSlide >= index) setActiveSlide(Math.max(0, activeSlide - 1));
+      setActiveSlide(Math.max(0, activeSlide > index ? activeSlide - 1 : activeSlide));
     }
   };
 
