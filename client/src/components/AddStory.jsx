@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "../style/components/AddStory.css";
 import exit from "../assets/Register/exit.jpg";
+import axios from "axios";
+import { BACKEND_URL } from "../deploymentLink.js";
 
 function AddStory({ setIsAddingStory }) {
   const [slides, setSlides] = useState([
@@ -39,7 +41,9 @@ function AddStory({ setIsAddingStory }) {
       }));
 
       setSlides(newSlides);
-      setActiveSlide(Math.max(0, activeSlide > index ? activeSlide - 1 : activeSlide));
+      setActiveSlide(
+        Math.max(0, activeSlide > index ? activeSlide - 1 : activeSlide)
+      );
     }
   };
 
@@ -59,7 +63,7 @@ function AddStory({ setIsAddingStory }) {
     setSlides(updatedSlides);
   };
 
-  const handlePost = () => {
+  const handlePost = async () => {
     // Validation: Ensure no field in any slide is empty
     for (const slide of slides) {
       if (!slide.heading || !slide.description || !slide.imageUrl) {
@@ -81,18 +85,27 @@ function AddStory({ setIsAddingStory }) {
       slides: slides.map(({ category, ...rest }) => rest),
     };
 
-    // Post the story
-    alert("Story Posted");
-    console.log(JSON.stringify(storyData, null, 2));
+    try {
+      // Send the data to your backend API
+      const response = await axios.post(
+        `${BACKEND_URL}/api/stories/addNewStory`,
+        storyData
+      );
+      alert("Story Posted Successfully");
+      console.log(response.data);
 
-    // Clear all fields
-    setSlides([
-      { id: 1, heading: "", description: "", imageUrl: "", category: "" },
-      { id: 2, heading: "", description: "", imageUrl: "", category: "" },
-      { id: 3, heading: "", description: "", imageUrl: "", category: "" },
-    ]);
-    setActiveSlide(0);
-    setIsAddingStory(false);
+      // Clear all fields
+      setSlides([
+        { id: 1, heading: "", description: "", imageUrl: "", category: "" },
+        { id: 2, heading: "", description: "", imageUrl: "", category: "" },
+        { id: 3, heading: "", description: "", imageUrl: "", category: "" },
+      ]);
+      setActiveSlide(0);
+      setIsAddingStory(false);
+    } catch (error) {
+      console.error("Error posting the story", error);
+      alert("Failed to post the story");
+    }
   };
 
   const handleCloseButton = () => {

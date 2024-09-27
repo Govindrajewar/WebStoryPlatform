@@ -4,6 +4,7 @@ const dotenv = require("dotenv").config();
 const mongoose = require("mongoose");
 const cors = require("cors");
 const userRoutes = require("./src/routes/userRoutes.js");
+const storiesRoutes = require("./src/routes/storiesRoutes.js");
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -13,6 +14,7 @@ app.use(express.json());
 app.use(morgan("dev"));
 app.use(cors());
 app.use("/api/users", userRoutes);
+app.use("/api/stories", storiesRoutes);
 
 const date = new Date();
 const formattedDate = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
