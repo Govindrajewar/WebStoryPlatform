@@ -3,10 +3,12 @@ import "../style/components/LoginNavBar.css";
 import { useNavigate } from "react-router-dom";
 import bookmark from "../assets/HomePage/LoginNavBar/bookmark.jpg";
 import hamburger from "../assets/HomePage/LoginNavBar/hamburger.png";
+import AddStory from "./AddStory.jsx";
 
 function LoginNavBar({ setIsLoggedIn, setIsShowBookmarks }) {
   const navigate = useNavigate();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [isAddingStory, setIsAddingStory] = useState(false);
 
   const handleLogout = () => {
     alert("Logout Successful");
@@ -28,13 +30,19 @@ function LoginNavBar({ setIsLoggedIn, setIsShowBookmarks }) {
     // navigate("/");
   };
 
+  const handleAddStory = () => {
+    setIsAddingStory(true);
+  };
+
   return (
     <div className="login-navbar">
       <div className="bookmarks-container" onClick={handleBookmarkPage}>
         <img src={bookmark} alt="Bookmark icon" />
         <div className="bookmarks-btn">Bookmarks</div>
       </div>
-      <div className="add-story-btn">Add story</div>
+      <div className="add-story-btn" onClick={handleAddStory}>
+        Add story
+      </div>
       <div className="user-profile" onClick={handleProfilePage}></div>
       <img src={hamburger} alt="hamburger icon" onClick={handleHamburger} />
 
@@ -48,6 +56,8 @@ function LoginNavBar({ setIsLoggedIn, setIsShowBookmarks }) {
           </div>
         </>
       )}
+
+      {isAddingStory && <AddStory />}
     </div>
   );
 }
