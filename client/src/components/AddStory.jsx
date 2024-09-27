@@ -62,19 +62,28 @@ function AddStory({ setIsAddingStory }) {
   const handlePost = () => {
     // Validation: Ensure no field in any slide is empty
     for (const slide of slides) {
-      if (
-        !slide.heading ||
-        !slide.description ||
-        !slide.imageUrl ||
-        !slide.category
-      ) {
+      if (!slide.heading || !slide.description || !slide.imageUrl) {
         alert(`Please fill in all fields for Slide ${slide.id}.`);
         return;
       }
     }
 
+    const selectedCategory = slides[0].category;
+
+    if (!selectedCategory) {
+      alert("Please select a category.");
+      return;
+    }
+
+    const storyData = {
+      createdBy: localStorage.getItem("currentUser"),
+      category: selectedCategory,
+      slides: slides.map(({ category, ...rest }) => rest),
+    };
+
+    // Post the story
     alert("Story Posted");
-    console.log("Posted Story:", JSON.stringify(slides, null, 2));
+    console.log(JSON.stringify(storyData, null, 2));
 
     // Clear all fields
     setSlides([
