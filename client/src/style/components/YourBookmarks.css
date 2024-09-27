@@ -1,0 +1,9 @@
+.yourbookmarks {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.yourbookmarks h2 {
+  margin: 50px;
+}

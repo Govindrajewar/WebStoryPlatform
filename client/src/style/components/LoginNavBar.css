@@ -1,0 +1,75 @@
+.user-profile {
+  height: 50px;
+  width: 50px;
+  background-color: aqua;
+  border: none;
+  border-radius: 50%;
+}
+
+.login-navbar {
+  padding: 10px;
+  background-color: #ffffff;
+  box-shadow: 0px 4px 15px 0px #00000026;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+
+.bookmarks-btn,
+.add-story-btn {
+  background-color: #ff7373;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  width: fit-content;
+}
+
+.bookmarks-btn,
+.add-story-btn,
+.user-profile,
+.login-navbar img {
+  margin-left: 20px;
+  cursor: pointer;
+}
+
+.bookmarks-btn {
+  padding: 10px 20px 10px 0;
+}
+
+.bookmarks-container {
+  display: flex;
+  align-items: center;
+  background-color: #ff7373;
+  border-radius: 20px;
+}
+
+.logOut-div {
+  position: absolute;
+  top: 8%;
+  background-color: #ffffff;
+  padding: 20px;
+  box-shadow: 0px 4px 4px 0px #00000040;
+  font-size: 20px;
+  width: 250px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.current-user {
+  font-weight: bold;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.logout-btn {
+  color: white;
+  border: none;
+  background-color: #ff7373;
+  border-radius: 20px;
+  cursor: pointer;
+  padding: 10px;
+  width: 140px;
+}

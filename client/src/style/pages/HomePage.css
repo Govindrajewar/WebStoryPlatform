@@ -1,0 +1,59 @@
+.homepage {
+  height: 100vh;
+  width: 100vw;
+}
+
+.categories {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.category-item {
+  padding: 20px;
+  text-align: center;
+  border-radius: 36px;
+  color: white;
+  font-weight: 700;
+  font-size: 30px;
+  margin-bottom: 20px;
+  height: 235px;
+  width: 235px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-repeat: no-repeat;
+  background-size: cover;
+  cursor: pointer;
+}
+
+.categories #All {
+  background-image: url("../../assets/HomePage/All.png");
+}
+.categories #Medical {
+  background-image: url("../../assets/HomePage/Medical.png");
+}
+.categories #Fruits {
+  background-image: url("../../assets/HomePage/Fruits.png");
+}
+.categories #World {
+  background-image: url("../../assets/HomePage/World.png");
+}
+.categories #India {
+  background-image: url("../../assets/HomePage/India.png");
+}
+
+h4 {
+  color: #000000;
+  font-weight: 700;
+  font-size: 30px;
+}
+
+.homepage .stories {
+  font-size: 30px;
+  color: #8e8e8e;
+  font-weight: 700;
+}
