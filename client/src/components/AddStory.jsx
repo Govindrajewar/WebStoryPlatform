@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import "../style/components/AddStory.css";
+import exit from "../assets/Register/exit.jpg";
 
-function AddStory() {
+function AddStory({ setIsAddingStory }) {
   const [slides, setSlides] = useState([
     { id: 1, heading: "", description: "", imageUrl: "", category: "" },
     { id: 2, heading: "", description: "", imageUrl: "", category: "" },
@@ -74,6 +75,19 @@ function AddStory() {
 
     alert("Story Posted");
     console.log("Posted Story:", JSON.stringify(slides, null, 2));
+
+    // Clear all fields
+    setSlides([
+      { id: 1, heading: "", description: "", imageUrl: "", category: "" },
+      { id: 2, heading: "", description: "", imageUrl: "", category: "" },
+      { id: 3, heading: "", description: "", imageUrl: "", category: "" },
+    ]);
+    setActiveSlide(0);
+    setIsAddingStory(false);
+  };
+
+  const handleCloseButton = () => {
+    setIsAddingStory(false);
   };
 
   return (
@@ -104,7 +118,12 @@ function AddStory() {
           Add +
         </button>
         <span className="slide-limit-msg">Add up to 6 slides</span>
-        <button className="close-btn">✖</button>
+        <img
+          src={exit}
+          className="close-btn"
+          alt="exit icon"
+          onClick={handleCloseButton}
+        />
       </div>
 
       <div className="story-content">

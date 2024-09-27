@@ -57,7 +57,7 @@ function LoginNavBar({ setIsLoggedIn, setIsShowBookmarks }) {
         </>
       )}
 
-      {isAddingStory && <AddStory />}
+      {isAddingStory && <AddStory setIsAddingStory={setIsAddingStory}/>}
     </div>
   );
 }
