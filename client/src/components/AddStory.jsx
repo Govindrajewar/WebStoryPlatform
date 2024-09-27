@@ -102,15 +102,17 @@ function AddStory({ setIsAddingStory }) {
             {`Slide ${slide.id}`}
 
             {slide.id > 3 && (
-              <span
-                className="remove-slide"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  removeSlide(index);
-                }}
-              >
-                ✖
-              </span>
+              <>
+                <img
+                  src={exit}
+                  alt="exit icon"
+                  className="remove-slide"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    removeSlide(index);
+                  }}
+                />
+              </>
             )}
           </button>
         ))}

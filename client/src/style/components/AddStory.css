@@ -32,6 +32,7 @@
   border-radius: 5px;
   cursor: pointer;
   font-size: 14px;
+  font-weight: bold;
   position: relative;
   box-shadow: 0px 4px 15px 0px #0000001a;
   height: 60px;
@@ -48,9 +49,12 @@
 }
 
 .remove-slide {
-  margin-left: 5px;
   color: #ff6666;
-  cursor: pointer;
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  top: 0px;
+  right: 0px;
 }
 
 .add-slide-btn {
