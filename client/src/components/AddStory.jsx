@@ -19,7 +19,7 @@ function AddStory() {
           heading: "",
           description: "",
           imageUrl: "",
-          category: "",
+          category: slides[0].category, // Apply the category of the first slide to new slides
         },
       ]);
     } else {
@@ -39,7 +39,16 @@ function AddStory() {
   // Function to update slide content
   const updateSlide = (index, field, value) => {
     const updatedSlides = [...slides];
-    updatedSlides[index][field] = value;
+
+    if (field === "category") {
+      // Update category for all slides when it changes
+      updatedSlides.forEach((slide) => {
+        slide.category = value;
+      });
+    } else {
+      updatedSlides[index][field] = value;
+    }
+
     setSlides(updatedSlides);
   };
 
@@ -132,7 +141,7 @@ function AddStory() {
           <label htmlFor="category">Category:</label>
           <select
             id="category"
-            value={slides[activeSlide].category}
+            value={slides[0].category}
             onChange={(e) =>
               updateSlide(activeSlide, "category", e.target.value)
             }
