@@ -30,19 +30,19 @@
   cursor: pointer;
 }
 
-.categories #All {
+.categories .All {
   background-image: url("../../assets/HomePage/All.png");
 }
-.categories #Medical {
+.categories .Medical {
   background-image: url("../../assets/HomePage/Medical.png");
 }
-.categories #Fruits {
+.categories .Fruits {
   background-image: url("../../assets/HomePage/Fruits.png");
 }
-.categories #World {
+.categories .World {
   background-image: url("../../assets/HomePage/World.png");
 }
-.categories #India {
+.categories .India {
   background-image: url("../../assets/HomePage/India.png");
 }
 
@@ -50,10 +50,75 @@ h4 {
   color: #000000;
   font-weight: 700;
   font-size: 30px;
+  margin-top: 20px;
+  text-align: center;
 }
 
-.homepage .stories {
-  font-size: 30px;
-  color: #8e8e8e;
-  font-weight: 700;
+.story-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-around;
+  margin-top: 30px;
+}
+
+.story-card {
+  width: 300px;
+  height: 400px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  color: #fff;
+}
+
+.story-data {
+  background: rgba(0, 0, 0, 0.6);
+  width: 100%;
+  padding: 10px;
+  text-align: center;
+}
+
+.story-data h3 {
+  margin: 0;
+  font-size: 20px;
+  color: #fff;
+}
+
+.story-data p {
+  margin: 5px 0 0;
+  font-size: 14px;
+}
+
+.no-image {
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #ffffff;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.story-card::before {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: absolute;
+  z-index: 1;
+}
+
+.story-card.no-image::before {
+  display: none;
 }
