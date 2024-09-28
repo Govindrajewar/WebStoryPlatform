@@ -13,6 +13,8 @@ function HomePage() {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [stories, setStories] = useState([]);
   const [userStories, setUserStories] = useState([]);
+  const [visibleStoriesCount, setVisibleStoriesCount] = useState(4);
+  const [visibleUserStoriesCount, setVisibleUserStoriesCount] = useState(4);
 
   useEffect(() => {
     const isLoggedInLocal = localStorage.getItem("IsLoggedIn");
@@ -63,6 +65,14 @@ function HomePage() {
     fetchUserStories();
   }, [isLoggedIn]);
 
+  const handleSeeMoreStories = () => {
+    setVisibleStoriesCount(stories.length);
+  };
+
+  const handleSeeMoreUserStories = () => {
+    setVisibleUserStoriesCount(userStories.length);
+  };
+
   return (
     <div className="homepage">
       {isLoggedIn ? (
@@ -95,58 +105,22 @@ function HomePage() {
             <>
               <h4>Your Stories</h4>
               <div className="user-stories">
-                {userStories.length > 0 ? (
-                  userStories.map((story) => {
-                    const imageUrl = story.slides[0].imageUrl;
-                    return (
-                      <div
-                        key={story._id}
-                        className={`user-story-card ${
-                          !imageUrl ? "no-image" : ""
-                        }`}
-                        style={{
-                          backgroundImage: imageUrl
-                            ? `url(${imageUrl})`
-                            : "none",
-                        }}
-                      >
-                        {imageUrl ? (
-                          <div className="user-story-data">
-                            <h3>{story.slides[0].heading}</h3>
-                            <p>{story.slides[0].description}</p>
-                          </div>
-                        ) : (
-                          <div className="no-image">
-                            <p>No image available</p>
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })
-                ) : (
-                  <p>No stories available</p>
-                )}
-              </div>
-            </>
-          )}
-
-          {/* Display Stories */}
-          <h4>Top Stories About {selectedCategory}</h4>
-          <div className="stories">
-            {stories.length > 0 ? (
-              <div className="story-cards">
-                {stories.map((story) => {
+                {userStories.slice(0, visibleUserStoriesCount).map((story) => {
                   const imageUrl = story.slides[0].imageUrl;
                   return (
                     <div
                       key={story._id}
-                      className={`story-card ${!imageUrl ? "no-image" : ""}`}
+                      className={`user-story-card ${
+                        !imageUrl ? "no-image" : ""
+                      }`}
                       style={{
-                        backgroundImage: imageUrl ? `url(${imageUrl})` : "none",
+                        backgroundImage: imageUrl
+                          ? `url(${imageUrl})`
+                          : "none",
                       }}
                     >
                       {imageUrl ? (
-                        <div className="story-data">
+                        <div className="user-story-data">
                           <h3>{story.slides[0].heading}</h3>
                           <p>{story.slides[0].description}</p>
                         </div>
@@ -159,10 +133,55 @@ function HomePage() {
                   );
                 })}
               </div>
-            ) : (
-              <p>No stories available for {selectedCategory}</p>
-            )}
+
+              {userStories.length > visibleUserStoriesCount && (
+                <div className="see-more-container">
+                  <button
+                    className="see-more-btn"
+                    onClick={handleSeeMoreUserStories}
+                  >
+                    See More
+                  </button>
+                </div>
+              )}
+            </>
+          )}
+
+          {/* Display Stories */}
+          <h4>Top Stories About {selectedCategory}</h4>
+          <div className="stories">
+            {stories.slice(0, visibleStoriesCount).map((story) => {
+              const imageUrl = story.slides[0].imageUrl;
+              return (
+                <div
+                  key={story._id}
+                  className={`story-card ${!imageUrl ? "no-image" : ""}`}
+                  style={{
+                    backgroundImage: imageUrl ? `url(${imageUrl})` : "none",
+                  }}
+                >
+                  {imageUrl ? (
+                    <div className="story-data">
+                      <h3>{story.slides[0].heading}</h3>
+                      <p>{story.slides[0].description}</p>
+                    </div>
+                  ) : (
+                    <div className="no-image">
+                      <p>No image available</p>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
+
+          {stories.length > visibleStoriesCount && (
+            <div className="see-more-container">
+              <button className="see-more-btn" onClick={handleSeeMoreStories}>
+                See More
+              </button>
+            </div>
+          )}
         </>
       )}
     </div>

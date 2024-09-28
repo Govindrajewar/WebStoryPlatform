@@ -177,3 +177,79 @@ h4 {
 .user-story-card.no-image::before {
   display: none;
 }
+
+
+.story-cards,
+.stories {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.story-card {
+  width: 100%;
+  height: 400px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  color: #fff;
+}
+
+.see-more-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.story-cards,
+.stories,
+.user-stories {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.story-card,
+.user-story-card {
+  width: 100%;
+  height: 400px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  color: #fff;
+}
+
+.see-more-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.see-more-btn {
+  font-size: 18px;
+  padding: 10px 20px;
+  background-color: #ff7373;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  margin: 20px;
+}
+
+.see-more-btn:hover {
+  background-color: #fa4e4e;
+}
