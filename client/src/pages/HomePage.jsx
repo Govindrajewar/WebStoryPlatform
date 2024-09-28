@@ -12,6 +12,7 @@ function HomePage() {
   const [categories] = useState(["All", "Medical", "Fruits", "World", "India"]);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [stories, setStories] = useState([]);
+  const [userStories, setUserStories] = useState([]);
 
   useEffect(() => {
     const isLoggedInLocal = localStorage.getItem("IsLoggedIn");
@@ -43,6 +44,25 @@ function HomePage() {
     fetchStories();
   }, [selectedCategory]);
 
+  // Fetch stories created by the logged-in user
+  useEffect(() => {
+    const fetchUserStories = async () => {
+      if (isLoggedIn) {
+        try {
+          const currentUser = localStorage.getItem("currentUser");
+          const response = await axios.get(
+            `${BACKEND_URL}/api/stories/user/${currentUser}`
+          );
+          setUserStories(response.data);
+        } catch (error) {
+          console.error("Error fetching user stories:", error);
+        }
+      }
+    };
+
+    fetchUserStories();
+  }, [isLoggedIn]);
+
   return (
     <div className="homepage">
       {isLoggedIn ? (
@@ -70,6 +90,45 @@ function HomePage() {
               </div>
             ))}
           </div>
+
+          {isLoggedIn && (
+            <>
+              <h4>Your Stories</h4>
+              <div className="user-stories">
+                {userStories.length > 0 ? (
+                  userStories.map((story) => {
+                    const imageUrl = story.slides[0].imageUrl;
+                    return (
+                      <div
+                        key={story._id}
+                        className={`user-story-card ${
+                          !imageUrl ? "no-image" : ""
+                        }`}
+                        style={{
+                          backgroundImage: imageUrl
+                            ? `url(${imageUrl})`
+                            : "none",
+                        }}
+                      >
+                        {imageUrl ? (
+                          <div className="user-story-data">
+                            <h3>{story.slides[0].heading}</h3>
+                            <p>{story.slides[0].description}</p>
+                          </div>
+                        ) : (
+                          <div className="no-image">
+                            <p>No image available</p>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })
+                ) : (
+                  <p>No stories available</p>
+                )}
+              </div>
+            </>
+          )}
 
           {/* Display Stories */}
           <h4>Top Stories About {selectedCategory}</h4>

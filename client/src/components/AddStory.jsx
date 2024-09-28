@@ -196,11 +196,10 @@ function AddStory({ setIsAddingStory }) {
             }
           >
             <option>Select category</option>
-            <option>food</option>
-            <option>health and fitness</option>
-            <option>travel</option>
-            <option>movies</option>
-            <option>education</option>
+            <option>Medical</option>
+            <option>Fruits</option>
+            <option>World</option>
+            <option>India</option>
           </select>
         </div>
       </div>

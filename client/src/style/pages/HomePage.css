@@ -50,7 +50,7 @@ h4 {
   color: #000000;
   font-weight: 700;
   font-size: 30px;
-  margin-top: 20px;
+  margin: 50px;
   text-align: center;
 }
 
@@ -120,5 +120,60 @@ h4 {
 }
 
 .story-card.no-image::before {
+  display: none;
+}
+
+.user-stories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: space-around;
+  margin-top: 30px;
+}
+
+.user-story-card {
+  width: 300px;
+  height: 400px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  color: #fff;
+}
+
+.user-story-data {
+  background: rgba(0, 0, 0, 0.6);
+  width: 100%;
+  padding: 10px;
+  text-align: center;
+}
+
+.user-story-data h3 {
+  margin: 0;
+  font-size: 20px;
+  color: #fff;
+}
+
+.user-story-data p {
+  margin: 5px 0 0;
+  font-size: 14px;
+}
+
+.user-story-card.no-image {
+  background-color: rgba(0, 0, 0, 0.6);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.user-story-card.no-image::before {
   display: none;
 }
