@@ -5,6 +5,7 @@ import NavBar from "../components/NavBar";
 import LoginNavBar from "../components/LoginNavBar";
 import YourBookmarks from "../components/YourBookmarks";
 import { BACKEND_URL } from "../deploymentLink";
+import EditButton from "../assets/HomePage/EditButton.png";
 
 function HomePage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -129,6 +130,14 @@ function HomePage() {
                           <p>No image available</p>
                         </div>
                       )}
+                      {/* Add Edit Button */}
+                      <button className="edit-btn">
+                        <img
+                          src={EditButton}
+                          alt="Edit button"
+                          className="edit-button"
+                        />
+                      </button>
                     </div>
                   );
                 })}
@@ -170,6 +179,14 @@ function HomePage() {
                       <p>No image available</p>
                     </div>
                   )}
+                  {/* Add Edit Button */}
+                  <button className="edit-btn">
+                    <img
+                      src={EditButton}
+                      alt="Edit button"
+                      className="edit-button"
+                    />
+                  </button>
                 </div>
               );
             })}

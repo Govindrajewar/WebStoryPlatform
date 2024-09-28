@@ -145,6 +145,7 @@ h4 {
   justify-content: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   color: #fff;
+  padding-bottom: 30px;
 }
 
 .user-story-data {
@@ -252,4 +253,20 @@ h4 {
 
 .see-more-btn:hover {
   background-color: #fa4e4e;
+}
+
+.edit-btn {
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: none;
+  border: none;
+  z-index: 2;
+}
+
+.edit-btn img {
+  width: 100px;
+  height: auto;
+  cursor: pointer;
 }
