@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import "../style/components/ViewStory.css";
 import bookmarkWhite from "../assets/ViewStory/bookmarkWhite.png";
 import bookmarkBlue from "../assets/ViewStory/bookmarkBlue.png";
+import axios from "axios";
+import { BACKEND_URL } from "../deploymentLink.js";
 
 function ViewStory({ story, onClose }) {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -43,8 +45,27 @@ function ViewStory({ story, onClose }) {
   };
 
   // Toggle the bookmark status
-  const handleYourBookmark = () => {
-    setIsBookmarked((prevBookmarked) => !prevBookmarked);
+  const handleYourBookmark = async () => {
+    const currentUser = localStorage.getItem("currentUser");
+    if (!currentUser) {
+      console.error("No user found in local storage.");
+      alert("You need to log in to bookmark stories.");
+      return;
+    }
+
+    const storyId = story._id;
+
+    try {
+      const response = await axios.put(`${BACKEND_URL}/api/users/updateBookmark`, {
+        storyId,
+        userEmail: currentUser,
+      });
+      setIsBookmarked((prev) => !prev);
+      alert(response.data.message);
+    } catch (error) {
+      console.error("Failed to update bookmark:", error);
+      alert("Failed to update bookmark. Please try again.");
+    }
   };
 
   // Toggle the like status and update the like count

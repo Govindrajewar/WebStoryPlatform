@@ -78,7 +78,53 @@ const loginController = async (req, res) => {
   }
 };
 
+// Add/Remove Bookmark Controller
+const updateBookmark = async (req, res) => {
+  const { storyId, userEmail } = req.body;
+
+  try {
+    const user = await User.findOne({ email: userEmail });
+    if (!user) {
+      console.error("User not found:", userEmail);
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const isBookmarked = user.bookmarks.includes(storyId);
+
+    if (isBookmarked) {
+      user.bookmarks = user.bookmarks.filter((id) => id !== storyId);
+      await user.save();
+      return res
+        .status(200)
+        .json({ message: "Bookmark removed successfully." });
+    } else {
+      user.bookmarks.push(storyId);
+      await user.save();
+      return res.status(200).json({ message: "Bookmark added successfully." });
+    }
+  } catch (error) {
+    console.error("Error updating bookmark:", error);
+    return res.status(500).json({ message: "Failed to update bookmark." });
+  }
+};
+
+// Fetch all users data excluding Password
+const getUserData = async (req, res) => {
+  try {
+    const user = await User.find().select("-password");
+
+    res.status(200).json(user);
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+    res
+      .status(500)
+      .json({ message: "Failed to fetch user data. Please try again." });
+  }
+};
+
 module.exports = {
   registerController,
   loginController,
+  updateBookmark,
+  getUserData,
 };
