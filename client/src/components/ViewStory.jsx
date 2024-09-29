@@ -15,9 +15,9 @@ function ViewStory({ story, onClose }) {
   useEffect(() => {
     if (story) {
       setCurrentSlide(0);
-      setIsLiked(false);
-      setLikeCount(0);
-      setIsBookmarked(false);
+      setLikeCount(story.likes || 0); // Initialize like count from story data
+      setIsLiked(story.likedBy.includes(localStorage.getItem("currentUser"))); // Check if the user has already liked the story
+      setIsBookmarked(false); // Placeholder; you can implement the bookmark logic similarly
     }
   }, [story]);
 
@@ -69,12 +69,31 @@ function ViewStory({ story, onClose }) {
   };
 
   // Toggle the like status and update the like count
-  const handleLikeButton = () => {
-    setIsLiked((prevLiked) => {
-      const newLiked = !prevLiked;
-      setLikeCount((prevCount) => (newLiked ? prevCount + 1 : prevCount - 1));
-      return newLiked;
-    });
+  const handleLikeButton = async () => {
+    const currentUser = localStorage.getItem("currentUser");
+    if (!currentUser) {
+      console.error("No user found in local storage.");
+      alert("You need to log in to like stories.");
+      return;
+    }
+
+    const storyId = story._id;
+
+    try {
+      const response = await axios.put(`${BACKEND_URL}/api/users/updateLike`, {
+        storyId,
+        userEmail: currentUser,
+      });
+      setIsLiked((prevLiked) => {
+        const newLiked = !prevLiked;
+        setLikeCount((prevCount) => (newLiked ? prevCount + 1 : prevCount - 1));
+        return newLiked;
+      });
+      alert(response.data.message);
+    } catch (error) {
+      console.error("Failed to update like:", error);
+      alert("Failed to update like. Please try again.");
+    }
   };
 
   return (
@@ -119,7 +138,7 @@ function ViewStory({ story, onClose }) {
               className="bookmark-btn"
               onClick={handleYourBookmark}
             />
-            {/* TODO: Fix like counter */}
+            {/* Like functionality */}
             <div className="like-btn" onClick={handleLikeButton}>
               <span>{isLiked ? "❤️" : "🤍"}</span>
               <span> {likeCount} </span>

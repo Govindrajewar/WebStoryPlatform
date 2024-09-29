@@ -11,6 +11,8 @@ const storySchema = new mongoose.Schema({
   createdBy: { type: String, required: true },
   category: { type: String, required: true },
   slides: [slideSchema],
+  likes: { type: Number, default: 0 },
+  likedBy: [{ type: String }]
 });
 
 const Story = mongoose.model("Story", storySchema);

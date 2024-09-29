@@ -152,10 +152,40 @@ const getUserBookmarkedStories = async (req, res) => {
   }
 };
 
+// Add/Remove Like Story
+const updateLike = async (req, res) => {
+  const { storyId, userEmail } = req.body;
+
+  try {
+    const story = await Story.findById(storyId);
+    if (!story) {
+      return res.status(404).json({ message: "Story not found" });
+    }
+
+    const isLiked = story.likedBy.includes(userEmail);
+
+    if (isLiked) {
+      story.likes -= 1;
+      story.likedBy = story.likedBy.filter((email) => email !== userEmail);
+      await story.save();
+      return res.status(200).json({ message: "Like removed successfully." });
+    } else {
+      story.likes += 1;
+      story.likedBy.push(userEmail);
+      await story.save();
+      return res.status(200).json({ message: "Story liked successfully." });
+    }
+  } catch (error) {
+    console.error("Error updating like:", error);
+    return res.status(500).json({ message: "Failed to update like." });
+  }
+};
+
 module.exports = {
   registerController,
   loginController,
   updateBookmark,
   getUserData,
   getUserBookmarkedStories,
+  updateLike,
 };
