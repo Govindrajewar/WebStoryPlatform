@@ -146,6 +146,7 @@ h4 {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   color: #fff;
   padding-bottom: 30px;
+  cursor: pointer;
 }
 
 .user-story-data {
@@ -201,6 +202,7 @@ h4 {
   justify-content: center;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   color: #fff;
+  cursor: pointer;
 }
 
 .see-more-container {

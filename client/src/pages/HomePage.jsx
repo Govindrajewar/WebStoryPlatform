@@ -7,6 +7,7 @@ import YourBookmarks from "../components/YourBookmarks";
 import { BACKEND_URL } from "../deploymentLink";
 import EditButton from "../assets/HomePage/EditButton.png";
 import AddStory from "../components/AddStory";
+import ViewStory from "../components/ViewStory";
 
 function HomePage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -19,6 +20,7 @@ function HomePage() {
   const [visibleUserStoriesCount, setVisibleUserStoriesCount] = useState(4);
   const [isAddingStory, setIsAddingStory] = useState(false);
   const [selectedStory, setSelectedStory] = useState(null);
+  const [viewStory, setViewStory] = useState(null);
 
   useEffect(() => {
     const isLoggedInLocal = localStorage.getItem("IsLoggedIn");
@@ -83,6 +85,14 @@ function HomePage() {
     setIsAddingStory(true);
   };
 
+  const handleViewStory = (story) => {
+    setViewStory(story);
+  };
+
+  const closeViewStory = () => {
+    setViewStory(null);
+  };
+
   return (
     <div className="homepage">
       {isLoggedIn ? (
@@ -128,6 +138,7 @@ function HomePage() {
                           ? `url(${imageUrl})`
                           : "none",
                       }}
+                      onClick={() => handleViewStory(story)}
                     >
                       {imageUrl ? (
                         <div className="user-story-data">
@@ -184,6 +195,7 @@ function HomePage() {
                   style={{
                     backgroundImage: imageUrl ? `url(${imageUrl})` : "none",
                   }}
+                  onClick={() => handleViewStory(story)}
                 >
                   {imageUrl ? (
                     <div className="story-data">
@@ -215,6 +227,7 @@ function HomePage() {
               </button>
             </div>
           )}
+          {viewStory && <ViewStory story={viewStory} onClose={closeViewStory} />}
         </>
       )}
     </div>
