@@ -181,6 +181,56 @@ const updateLike = async (req, res) => {
   }
 };
 
+const likeStatus = async (req, res) => {
+  const { storyId } = req.params;
+  const userEmail = req.query.userEmail;
+
+  try {
+    const story = await Story.findById(storyId);
+    if (!story) {
+      return res.status(404).json({ message: "Story not found" });
+    }
+
+    const isLikedByUser = story.likedBy.includes(userEmail);
+    const likeCount = story.likedBy.length;
+
+    res.json({ isLikedByUser, likes: likeCount });
+  } catch (error) {
+    console.error("Error fetching like status:", error);
+    res.status(500).json({ message: "Failed to fetch like status" });
+  }
+};
+
+const toggleLike = async (req, res) => {
+  const { storyId } = req.params;
+  const { userEmail } = req.body;
+
+  try {
+    const story = await Story.findById(storyId);
+    if (!story) {
+      return res.status(404).json({ message: "Story not found" });
+    }
+
+    const userIndex = story.likedBy.indexOf(userEmail);
+    if (userIndex === -1) {
+      // User hasn't liked the story yet, so like it
+      story.likedBy.push(userEmail);
+    } else {
+      // User already liked the story, so unlike it
+      story.likedBy.splice(userIndex, 1);
+    }
+
+    await story.save();
+    const updatedLikeCount = story.likedBy.length;
+    const isLiked = userIndex === -1;
+
+    res.json({ isLiked, likeCount: updatedLikeCount });
+  } catch (error) {
+    console.error("Error toggling like status:", error);
+    res.status(500).json({ message: "Failed to toggle like status" });
+  }
+};
+
 module.exports = {
   registerController,
   loginController,
@@ -188,4 +238,6 @@ module.exports = {
   getUserData,
   getUserBookmarkedStories,
   updateLike,
+  likeStatus,
+  toggleLike,
 };

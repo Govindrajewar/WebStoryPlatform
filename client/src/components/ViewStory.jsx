@@ -15,9 +15,18 @@ function ViewStory({ story, onClose }) {
   useEffect(() => {
     if (story) {
       setCurrentSlide(0);
-      setLikeCount(story.likes || 0); // Initialize like count from story data
-      setIsLiked(story.likedBy.includes(localStorage.getItem("currentUser"))); // Check if the user has already liked the story
-      setIsBookmarked(false); // Placeholder; you can implement the bookmark logic similarly
+      setIsBookmarked(false);
+
+      // Fetch initial like count and liked status from the backend
+      axios.get(`${BACKEND_URL}/api/users/${story._id}/likeStatus`)
+        .then((response) => {
+          const { isLikedByUser, likes } = response.data;
+          setIsLiked(isLikedByUser);
+          setLikeCount(likes);
+        })
+        .catch((error) => {
+          console.error("Error fetching like status:", error);
+        });
     }
   }, [story]);
 
@@ -77,19 +86,15 @@ function ViewStory({ story, onClose }) {
       return;
     }
 
-    const storyId = story._id;
-
     try {
-      const response = await axios.put(`${BACKEND_URL}/api/users/updateLike`, {
-        storyId,
+      const response = await axios.put(`${BACKEND_URL}/api/users/${story._id}/toggleLike`, {
         userEmail: currentUser,
       });
-      setIsLiked((prevLiked) => {
-        const newLiked = !prevLiked;
-        setLikeCount((prevCount) => (newLiked ? prevCount + 1 : prevCount - 1));
-        return newLiked;
-      });
-      alert(response.data.message);
+
+      const { isLiked: newLikeStatus, likeCount: updatedLikeCount } = response.data;
+
+      setIsLiked(newLikeStatus);
+      setLikeCount(updatedLikeCount);
     } catch (error) {
       console.error("Failed to update like:", error);
       alert("Failed to update like. Please try again.");
@@ -138,7 +143,7 @@ function ViewStory({ story, onClose }) {
               className="bookmark-btn"
               onClick={handleYourBookmark}
             />
-            {/* Like functionality */}
+
             <div className="like-btn" onClick={handleLikeButton}>
               <span>{isLiked ? "❤️" : "🤍"}</span>
               <span> {likeCount} </span>
