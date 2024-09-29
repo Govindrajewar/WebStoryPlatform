@@ -125,42 +125,48 @@ function HomePage() {
             <>
               <h4>Your Stories</h4>
               <div className="user-stories">
-                {userStories.slice(0, visibleUserStoriesCount).map((story) => {
-                  const imageUrl = story.slides[0].imageUrl;
-                  return (
-                    <div
-                      key={story._id}
-                      className={`user-story-card ${
-                        !imageUrl ? "no-image" : ""
-                      }`}
-                      style={{
-                        backgroundImage: imageUrl
-                          ? `url(${imageUrl})`
-                          : "none",
-                      }}
-                      onClick={() => handleViewStory(story)}
-                    >
-                      {imageUrl ? (
-                        <div className="user-story-data">
-                          <h3>{story.slides[0].heading}</h3>
-                          <p>{story.slides[0].description}</p>
-                        </div>
-                      ) : (
-                        <div className="no-image">
-                          <p>No image available</p>
-                        </div>
-                      )}
-                      {/* Add Edit Button */}
-                      <button className="edit-btn" onClick={() => handleEditStory(story)}>
-                        <img
-                          src={EditButton}
-                          alt="Edit button"
-                          className="edit-button"
-                        />
-                      </button>
-                    </div>
-                  );
-                })}
+                {userStories.length === 0 ? (
+                  <p className="no-stories">No stories available</p>
+                ) : (
+                  userStories.slice(0, visibleUserStoriesCount).map((story) => {
+                    const imageUrl = story.slides[0].imageUrl;
+                    return (
+                      <div
+                        key={story._id}
+                        className={`user-story-card ${
+                          !imageUrl ? "no-image" : ""
+                        }`}
+                        style={{
+                          backgroundImage: imageUrl
+                            ? `url(${imageUrl})`
+                            : "none",
+                        }}
+                        onClick={() => handleViewStory(story)}
+                      >
+                        {imageUrl ? (
+                          <div className="user-story-data">
+                            <h3>{story.slides[0].heading}</h3>
+                            <p>{story.slides[0].description}</p>
+                          </div>
+                        ) : (
+                          <div className="no-image">
+                            <p>No image available</p>
+                          </div>
+                        )}
+                        <button
+                          className="edit-btn"
+                          onClick={() => handleEditStory(story)}
+                        >
+                          <img
+                            src={EditButton}
+                            alt="Edit button"
+                            className="edit-button"
+                          />
+                        </button>
+                      </div>
+                    );
+                  })
+                )}
               </div>
 
               {userStories.length > visibleUserStoriesCount && (
@@ -186,38 +192,41 @@ function HomePage() {
           {/* Display Stories */}
           <h4>Top Stories About {selectedCategory}</h4>
           <div className="stories">
-            {stories.slice(0, visibleStoriesCount).map((story) => {
-              const imageUrl = story.slides[0].imageUrl;
-              return (
-                <div
-                  key={story._id}
-                  className={`story-card ${!imageUrl ? "no-image" : ""}`}
-                  style={{
-                    backgroundImage: imageUrl ? `url(${imageUrl})` : "none",
-                  }}
-                  onClick={() => handleViewStory(story)}
-                >
-                  {imageUrl ? (
-                    <div className="story-data">
-                      <h3>{story.slides[0].heading}</h3>
-                      <p>{story.slides[0].description}</p>
-                    </div>
-                  ) : (
-                    <div className="no-image">
-                      <p>No image available</p>
-                    </div>
-                  )}
-                  {/* Add Edit Button */}
-                  <button className="edit-btn">
-                    <img
-                      src={EditButton}
-                      alt="Edit button"
-                      className="edit-button"
-                    />
-                  </button>
-                </div>
-              );
-            })}
+            {stories.length === 0 ? (
+              <p className="no-stories">No stories available</p>
+            ) : (
+              stories.slice(0, visibleStoriesCount).map((story) => {
+                const imageUrl = story.slides[0].imageUrl;
+                return (
+                  <div
+                    key={story._id}
+                    className={`story-card ${!imageUrl ? "no-image" : ""}`}
+                    style={{
+                      backgroundImage: imageUrl ? `url(${imageUrl})` : "none",
+                    }}
+                    onClick={() => handleViewStory(story)}
+                  >
+                    {imageUrl ? (
+                      <div className="story-data">
+                        <h3>{story.slides[0].heading}</h3>
+                        <p>{story.slides[0].description}</p>
+                      </div>
+                    ) : (
+                      <div className="no-image">
+                        <p>No image available</p>
+                      </div>
+                    )}
+                    <button className="edit-btn">
+                      <img
+                        src={EditButton}
+                        alt="Edit button"
+                        className="edit-button"
+                      />
+                    </button>
+                  </div>
+                );
+              })
+            )}
           </div>
 
           {stories.length > visibleStoriesCount && (
@@ -227,7 +236,10 @@ function HomePage() {
               </button>
             </div>
           )}
-          {viewStory && <ViewStory story={viewStory} onClose={closeViewStory} />}
+
+          {viewStory && (
+            <ViewStory story={viewStory} onClose={closeViewStory} />
+          )}
         </>
       )}
     </div>
