@@ -150,7 +150,6 @@ h4 {
 }
 
 .user-story-data {
-  background: rgba(0, 0, 0, 0.6);
   width: 100%;
   padding: 10px;
   text-align: center;
@@ -280,4 +279,23 @@ h4 {
   font-weight: bold;
   color: #8e8e8e;
   margin-left: 30px;
+}
+
+.edit-button {
+  position: absolute;
+  top: 97%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
+  z-index: 10;
+  padding: 10px;
+  border-radius: 20px;
+  width: 100px;
+  background-color: white;
+  font-size: 20px;
+  font-weight: 700;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

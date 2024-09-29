@@ -121,7 +121,7 @@ function HomePage() {
             ))}
           </div>
 
-          {isLoggedIn && !isAddingStory && (
+          {isLoggedIn && (
             <>
               <h4>Your Stories</h4>
               <div className="user-stories">
@@ -153,16 +153,16 @@ function HomePage() {
                             <p>No image available</p>
                           </div>
                         )}
-                        <button
-                          className="edit-btn"
-                          onClick={() => handleEditStory(story)}
+                        <div
+                          className="edit-button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleEditStory(story);
+                          }}
                         >
-                          <img
-                            src={EditButton}
-                            alt="Edit button"
-                            className="edit-button"
-                          />
-                        </button>
+                          <img src={EditButton} alt="Edit icon" />
+                          <div>Edit</div>
+                        </div>
                       </div>
                     );
                   })
@@ -216,13 +216,16 @@ function HomePage() {
                         <p>No image available</p>
                       </div>
                     )}
-                    <button className="edit-btn">
-                      <img
-                        src={EditButton}
-                        alt="Edit button"
-                        className="edit-button"
-                      />
-                    </button>
+                    <div
+                      className="edit-button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleEditStory(story);
+                      }}
+                    >
+                      <img src={EditButton} alt="Edit icon" />
+                      <div>Edit</div>
+                    </div>
                   </div>
                 );
               })
