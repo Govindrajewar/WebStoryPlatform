@@ -13,6 +13,25 @@ const addNewStory = async (req, res) => {
   }
 };
 
+// Update an existing story
+const updateStory = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const updatedStory = await Story.findByIdAndUpdate(id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+
+    if (!updatedStory) {
+      return res.status(404).json({ error: "Story not found" });
+    }
+
+    res.status(200).json({ message: "Story updated successfully", story: updatedStory });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to update story" });
+  }
+};
+
 // Fetch all stories
 const getAllStories = async (req, res) => {
   try {
@@ -56,6 +75,7 @@ const getStoriesByUser = async (req, res) => {
 
 module.exports = {
   addNewStory,
+  updateStory,
   getAllStories,
   getStoriesByCategory,
   getStoriesByUser,

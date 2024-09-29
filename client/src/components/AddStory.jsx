@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../style/components/AddStory.css";
 import exit from "../assets/Register/exit.jpg";
 import axios from "axios";
 import { BACKEND_URL } from "../deploymentLink.js";
 
-function AddStory({ setIsAddingStory }) {
+function AddStory({ setIsAddingStory, initialStoryData }) {
   const [slides, setSlides] = useState([
     { id: 1, heading: "", description: "", imageUrl: "", category: "" },
     { id: 2, heading: "", description: "", imageUrl: "", category: "" },
@@ -28,6 +28,19 @@ function AddStory({ setIsAddingStory }) {
     } else {
       alert("You can add up to 6 slides only.");
     }
+  };
+
+  // Prefill story data when in edit mode
+  useEffect(() => {
+    if (initialStoryData) {
+      setSlides(initialStoryData.slides);
+    }
+  }, [initialStoryData]);
+
+  const handleSlideChange = (slideIndex, field, value) => {
+    const updatedSlides = [...slides];
+    updatedSlides[slideIndex][field] = value;
+    setSlides(updatedSlides);
   };
 
   // Function to handle removing a slide
@@ -87,12 +100,23 @@ function AddStory({ setIsAddingStory }) {
 
     try {
       // Send the data to your backend API
-      const response = await axios.post(
-        `${BACKEND_URL}/api/stories/addNewStory`,
-        storyData
-      );
-      alert("Story Posted Successfully");
-      console.log(response.data);
+      let response;
+
+      if (initialStoryData) {
+        response = await axios.put(
+          `${BACKEND_URL}/api/stories/${initialStoryData._id}`,
+          storyData
+        );
+        alert("Story Updated Successfully");
+        console.log(response.data);
+      } else {
+        response = await axios.post(
+          `${BACKEND_URL}/api/stories/addNewStory`,
+          storyData
+        );
+        alert("Story Posted Successfully");
+        console.log(response.data);
+      }
 
       // Clear all fields
       setSlides([
@@ -117,11 +141,11 @@ function AddStory({ setIsAddingStory }) {
       <div className="slide-selector">
         {slides.map((slide, index) => (
           <button
-            key={index}
-            className={`slide-btn ${index === activeSlide ? "active" : ""}`}
+            key={slide.id}
+            className={`slide-btn ${activeSlide === index ? "active" : ""}`}
             onClick={() => setActiveSlide(index)}
           >
-            {`Slide ${slide.id}`}
+            Slide {index + 1}
 
             {slide.id > 3 && (
               <>
@@ -158,7 +182,7 @@ function AddStory({ setIsAddingStory }) {
             id="heading"
             value={slides[activeSlide].heading}
             onChange={(e) =>
-              updateSlide(activeSlide, "heading", e.target.value)
+              handleSlideChange(activeSlide, "heading", e.target.value)
             }
             placeholder="Your heading"
           />
@@ -169,7 +193,7 @@ function AddStory({ setIsAddingStory }) {
             id="description"
             value={slides[activeSlide].description}
             onChange={(e) =>
-              updateSlide(activeSlide, "description", e.target.value)
+              handleSlideChange(activeSlide, "description", e.target.value)
             }
             placeholder="Story Description"
           ></textarea>
@@ -181,7 +205,7 @@ function AddStory({ setIsAddingStory }) {
             id="image"
             value={slides[activeSlide].imageUrl}
             onChange={(e) =>
-              updateSlide(activeSlide, "imageUrl", e.target.value)
+              handleSlideChange(activeSlide, "imageUrl", e.target.value)
             }
             placeholder="Add Image url"
           />

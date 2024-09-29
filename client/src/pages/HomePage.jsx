@@ -6,6 +6,7 @@ import LoginNavBar from "../components/LoginNavBar";
 import YourBookmarks from "../components/YourBookmarks";
 import { BACKEND_URL } from "../deploymentLink";
 import EditButton from "../assets/HomePage/EditButton.png";
+import AddStory from "../components/AddStory";
 
 function HomePage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -16,6 +17,8 @@ function HomePage() {
   const [userStories, setUserStories] = useState([]);
   const [visibleStoriesCount, setVisibleStoriesCount] = useState(4);
   const [visibleUserStoriesCount, setVisibleUserStoriesCount] = useState(4);
+  const [isAddingStory, setIsAddingStory] = useState(false);
+  const [selectedStory, setSelectedStory] = useState(null);
 
   useEffect(() => {
     const isLoggedInLocal = localStorage.getItem("IsLoggedIn");
@@ -74,6 +77,12 @@ function HomePage() {
     setVisibleUserStoriesCount(userStories.length);
   };
 
+  // Handle edit button click for user stories
+  const handleEditStory = (story) => {
+    setSelectedStory(story);
+    setIsAddingStory(true);
+  };
+
   return (
     <div className="homepage">
       {isLoggedIn ? (
@@ -102,7 +111,7 @@ function HomePage() {
             ))}
           </div>
 
-          {isLoggedIn && (
+          {isLoggedIn && !isAddingStory && (
             <>
               <h4>Your Stories</h4>
               <div className="user-stories">
@@ -131,7 +140,7 @@ function HomePage() {
                         </div>
                       )}
                       {/* Add Edit Button */}
-                      <button className="edit-btn">
+                      <button className="edit-btn" onClick={() => handleEditStory(story)}>
                         <img
                           src={EditButton}
                           alt="Edit button"
@@ -154,6 +163,13 @@ function HomePage() {
                 </div>
               )}
             </>
+          )}
+
+          {isLoggedIn && isAddingStory && (
+            <AddStory
+              setIsAddingStory={setIsAddingStory}
+              initialStoryData={selectedStory}
+            />
           )}
 
           {/* Display Stories */}
