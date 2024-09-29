@@ -1,4 +1,5 @@
-const User = require("../models/userModels");
+const User = require("../models/UserModels.js");
+const Story = require("../models/StoriesModels.js");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
@@ -122,9 +123,39 @@ const getUserData = async (req, res) => {
   }
 };
 
+// Fetch all saved bookmarks by user
+const getUserBookmarkedStories = async (req, res) => {
+  const { email } = req.params;
+
+  try {
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Check if the user has any bookmarks
+    if (!user.bookmarks || user.bookmarks.length === 0) {
+      return res.status(200).json([]);
+    }
+
+    const bookmarkedStories = await Story.find({
+      _id: { $in: user.bookmarks },
+    });
+
+    return res.status(200).json(bookmarkedStories);
+  } catch (error) {
+    console.error("Error fetching bookmarked stories:", error);
+    return res
+      .status(500)
+      .json({ message: "Failed to fetch bookmarked stories" });
+  }
+};
+
 module.exports = {
   registerController,
   loginController,
   updateBookmark,
   getUserData,
+  getUserBookmarkedStories,
 };

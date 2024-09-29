@@ -1,25 +1,36 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import "../style/components/YourBookmarks.css";
 import { BACKEND_URL } from "../deploymentLink";
 
 function YourBookmarks() {
   const [stories, setStories] = useState([]);
+  const [currentUser, setCurrentUser] = useState(null);
 
-  // TODO: Instead of displaying all stories only display the bookmarked stories by currentUser
-  // Fetch stories on component mount
   useEffect(() => {
-    const fetchStories = async () => {
+    const user = localStorage.getItem("currentUser");
+    if (user) {
+      setCurrentUser(user);
+    }
+  }, []);
+
+  // Fetch bookmarked stories
+  useEffect(() => {
+    const fetchBookmarkedStories = async () => {
+      if (!currentUser) return;
+
       try {
-        const response = await fetch(`${BACKEND_URL}/api/stories/allStories`);
-        const data = await response.json();
-        setStories(data);
+        const response = await axios.get(
+          `${BACKEND_URL}/api/users/${currentUser}/bookmarks`
+        );
+        setStories(response.data);
       } catch (error) {
-        console.error("Error fetching stories:", error);
+        console.error("Error fetching bookmarked stories:", error);
       }
     };
 
-    fetchStories();
-  }, []);
+    fetchBookmarkedStories();
+  }, [currentUser]);
 
   return (
     <div className="yourbookmarks">
@@ -27,7 +38,7 @@ function YourBookmarks() {
       <div className="your-stories">
         {stories.length > 0 ? (
           stories.map((story) => {
-            const imageUrl = story.slides[0].imageUrl;
+            const imageUrl = story.slides[0]?.imageUrl;
             return (
               <div
                 key={story._id}
