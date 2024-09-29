@@ -27,7 +27,7 @@
 
 .slide-btn,
 .add-slide-btn {
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   border: 1px solid #ddd;
   padding: 10px 15px;
   border-radius: 5px;
@@ -71,14 +71,14 @@
   right: 70px;
 }
 
-.close-btn {
+.addstory .close-btn {
   background: transparent;
   border: none;
   font-size: 20px;
   cursor: pointer;
   position: absolute;
   top: 25px;
-  right: 25px;
+  left: 90%;
 }
 
 .story-content {
