@@ -8,6 +8,7 @@ import { BACKEND_URL } from "../deploymentLink";
 import EditButton from "../assets/HomePage/EditButton.png";
 import AddStory from "../components/AddStory";
 import ViewStory from "../components/ViewStory";
+import Footer from "../components/Footer";
 
 function HomePage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -247,6 +248,7 @@ function HomePage() {
           )}
         </>
       )}
+      <Footer/>
     </div>
   );
 }
