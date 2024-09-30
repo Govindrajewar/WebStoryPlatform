@@ -23,9 +23,9 @@
 .view-story-content {
   position: relative;
   background: rgba(0, 0, 0, 0.5);
-  width: 25%;
+  width: 30%;
   max-width: 800px;
-  height: 70%;
+  height: 100%;
   border-radius: 8px;
   z-index: 1001;
 }
@@ -122,8 +122,8 @@
 
 .close-btn {
   position: absolute;
-  top: 10px;
-  left: 0;
+  top: 50px;
+  left: 10px;
   background-color: transparent;
   border: none;
   font-size: 30px;
@@ -135,7 +135,7 @@
 
 .share-btn {
   position: absolute;
-  top: 10px;
+  top: 50px;
   right: 10px;
   border: none;
   cursor: pointer;
@@ -154,10 +154,9 @@
 .dash {
   font-size: 100px;
   color: #ccc;
-  margin: 0 5px;
+  margin: 0 20px;
   position: relative;
-  top: -280px;
-  line-height: 0;
+  top: -380px;
 }
 
 .highlighted {
