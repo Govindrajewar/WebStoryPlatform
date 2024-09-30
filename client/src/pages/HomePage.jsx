@@ -139,6 +139,7 @@ function HomePage() {
                           backgroundImage: imageUrl
                             ? `url(${imageUrl})`
                             : "none",
+                          overflow: "visible",
                         }}
                         onClick={() => handleViewStory(story)}
                       >
@@ -204,6 +205,7 @@ function HomePage() {
                     className={`story-card ${!imageUrl ? "no-image" : ""}`}
                     style={{
                       backgroundImage: imageUrl ? `url(${imageUrl})` : "none",
+                      overflow: "visible",
                     }}
                     onClick={() => handleViewStory(story)}
                   >

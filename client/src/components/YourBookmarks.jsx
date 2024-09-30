@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../style/components/YourBookmarks.css";
 import { BACKEND_URL } from "../deploymentLink";
+import ViewStory from "./ViewStory";
 
 function YourBookmarks() {
   const [stories, setStories] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
+  const [viewStory, setViewStory] = useState(null);
 
   useEffect(() => {
     const user = localStorage.getItem("currentUser");
@@ -32,6 +34,14 @@ function YourBookmarks() {
     fetchBookmarkedStories();
   }, [currentUser]);
 
+  const handleViewStory = (story) => {
+    setViewStory(story);
+  };
+
+  const closeViewStory = () => {
+    setViewStory(null);
+  };
+
   return (
     <div className="yourbookmarks">
       <h2>Your Bookmarks</h2>
@@ -46,6 +56,7 @@ function YourBookmarks() {
                 style={{
                   backgroundImage: imageUrl ? `url(${imageUrl})` : "none",
                 }}
+                onClick={() => handleViewStory(story)}
               >
                 {imageUrl ? (
                   <div className="story-data">
@@ -64,6 +75,7 @@ function YourBookmarks() {
           <p>No bookmarked stories found.</p>
         )}
       </div>
+      {viewStory && <ViewStory story={viewStory} onClose={closeViewStory} />}
     </div>
   );
 }

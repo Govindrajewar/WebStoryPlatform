@@ -106,6 +106,7 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
+  row-gap: 50px;
   justify-items: center;
   align-items: center;
 }
@@ -132,6 +133,7 @@
   width: 100%;
   padding: 10px;
   text-align: center;
+  margin-bottom: 30px;
 }
 
 .story-data h3 {
@@ -188,6 +190,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: 20px;
+  box-shadow: 0px 4px 4px 0px #00000040;
 }
 
 h4 {
