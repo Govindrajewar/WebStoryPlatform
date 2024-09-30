@@ -114,6 +114,17 @@ function ViewStory({ story, onClose }) {
     }
   };
 
+  const renderSlideIndicators = () => {
+    return [...Array(totalSlides)].map((_, index) => (
+      <span
+        key={index}
+        className={`dash ${index === currentSlide ? "highlighted" : ""}`}
+      >
+        _
+      </span>
+    ));
+  };
+
   return (
     <div className="view-story-modal">
       <div className="view-story-overlay" onClick={onClose} />
@@ -158,6 +169,7 @@ function ViewStory({ story, onClose }) {
               <div />
             </div>
           </div>
+          <div className="slide-indicators">{renderSlideIndicators()}</div>
         </div>
 
         <img

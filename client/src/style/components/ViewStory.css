@@ -143,3 +143,24 @@
   width: 30px;
   margin-top: 10px;
 }
+
+.slide-indicators {
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.dash {
+  font-size: 100px;
+  color: #ccc;
+  margin: 0 5px;
+  position: relative;
+  top: -280px;
+  line-height: 0;
+}
+
+.highlighted {
+  color: #fff;
+  font-weight: bold;
+}
