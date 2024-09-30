@@ -142,7 +142,7 @@ function HomePage() {
                         onClick={() => handleViewStory(story)}
                       >
                         {imageUrl ? (
-                          <div className="user-story-data">
+                          <div className="story-data">
                             <h3>{story.slides[0].heading}</h3>
                             <p>{story.slides[0].description}</p>
                           </div>
