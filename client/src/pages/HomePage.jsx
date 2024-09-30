@@ -5,7 +5,6 @@ import NavBar from "../components/NavBar";
 import LoginNavBar from "../components/LoginNavBar";
 import YourBookmarks from "../components/YourBookmarks";
 import { BACKEND_URL } from "../deploymentLink";
-// eslint-disable-next-line
 import EditButton from "../assets/HomePage/EditButton.png";
 import AddStory from "../components/AddStory";
 import ViewStory from "../components/ViewStory";
@@ -125,7 +124,7 @@ function HomePage() {
           {isLoggedIn && (
             <>
               <h4>Your Stories</h4>
-              <div className="user-stories">
+              <div className="stories">
                 {userStories.length === 0 ? (
                   <p className="no-stories">No stories available</p>
                 ) : (
@@ -134,9 +133,7 @@ function HomePage() {
                     return (
                       <div
                         key={story._id}
-                        className={`user-story-card ${
-                          !imageUrl ? "no-image" : ""
-                        }`}
+                        className={`story-card ${!imageUrl ? "no-image" : ""}`}
                         style={{
                           backgroundImage: imageUrl
                             ? `url(${imageUrl})`
@@ -162,6 +159,7 @@ function HomePage() {
                               handleEditStory(story);
                             }}
                           >
+                            <img src={EditButton} alt="Edit Button icon" />
                             Edit
                           </div>
                         )}
@@ -226,6 +224,7 @@ function HomePage() {
                           handleEditStory(story);
                         }}
                       >
+                        <img src={EditButton} alt="Edit Button icon" />
                         Edit
                       </div>
                     )}

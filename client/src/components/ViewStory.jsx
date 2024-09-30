@@ -4,6 +4,9 @@ import bookmarkWhite from "../assets/ViewStory/bookmarkWhite.png";
 import bookmarkBlue from "../assets/ViewStory/bookmarkBlue.png";
 import axios from "axios";
 import { BACKEND_URL } from "../deploymentLink.js";
+import likeWhite from "../assets/ViewStory/likeWhite.png";
+import likeRed from "../assets/ViewStory/likeRed.png";
+import share from "../assets/ViewStory/share.png";
 
 function ViewStory({ story, onClose }) {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -18,7 +21,8 @@ function ViewStory({ story, onClose }) {
       setIsBookmarked(false);
 
       // Fetch initial like count and liked status from the backend
-      axios.get(`${BACKEND_URL}/api/users/${story._id}/likeStatus`)
+      axios
+        .get(`${BACKEND_URL}/api/users/${story._id}/likeStatus`)
         .then((response) => {
           const { isLikedByUser, likes } = response.data;
           setIsLiked(isLikedByUser);
@@ -47,7 +51,9 @@ function ViewStory({ story, onClose }) {
   const handleCopyLink = () => {
     const baseUrl = window.location.origin;
     const storyId = story._id;
-    const slideUrl = `${baseUrl}/stories/view/${storyId}/slide/${currentSlide + 1}`;
+    const slideUrl = `${baseUrl}/stories/view/${storyId}/slide/${
+      currentSlide + 1
+    }`;
     navigator.clipboard.writeText(slideUrl).then(() => {
       alert("Story slide URL copied to clipboard!");
     });
@@ -65,10 +71,13 @@ function ViewStory({ story, onClose }) {
     const storyId = story._id;
 
     try {
-      const response = await axios.put(`${BACKEND_URL}/api/users/updateBookmark`, {
-        storyId,
-        userEmail: currentUser,
-      });
+      const response = await axios.put(
+        `${BACKEND_URL}/api/users/updateBookmark`,
+        {
+          storyId,
+          userEmail: currentUser,
+        }
+      );
       setIsBookmarked((prev) => !prev);
       alert(response.data.message);
     } catch (error) {
@@ -87,11 +96,15 @@ function ViewStory({ story, onClose }) {
     }
 
     try {
-      const response = await axios.put(`${BACKEND_URL}/api/users/${story._id}/toggleLike`, {
-        userEmail: currentUser,
-      });
+      const response = await axios.put(
+        `${BACKEND_URL}/api/users/${story._id}/toggleLike`,
+        {
+          userEmail: currentUser,
+        }
+      );
 
-      const { isLiked: newLikeStatus, likeCount: updatedLikeCount } = response.data;
+      const { isLiked: newLikeStatus, likeCount: updatedLikeCount } =
+        response.data;
 
       setIsLiked(newLikeStatus);
       setLikeCount(updatedLikeCount);
@@ -104,55 +117,62 @@ function ViewStory({ story, onClose }) {
   return (
     <div className="view-story-modal">
       <div className="view-story-overlay" onClick={onClose} />
+      <div
+        className="nav-arrow left-arrow"
+        onClick={goToPreviousSlide}
+        disabled={currentSlide === 0}
+      >
+        《
+      </div>
       <div className="view-story-content">
         <button className="close-btn" onClick={onClose}>
           ✖
         </button>
-        <div className="story-image-container">
-          <button
-            className="nav-arrow left-arrow"
-            onClick={goToPreviousSlide}
-            disabled={currentSlide === 0}
-          >
-            &lt;
-          </button>
-
-          <div className="story-image">
-            <img
-              src={story.slides[currentSlide]?.imageUrl}
-              alt={story.slides[currentSlide]?.heading}
-            />
-          </div>
-
-          <button
-            className="nav-arrow right-arrow"
-            onClick={goToNextSlide}
-            disabled={currentSlide === totalSlides - 1}
-          >
-            &gt;
-          </button>
-        </div>
-
-        <div className="story-details">
-          <h3>{story.slides[currentSlide]?.heading}</h3>
-          <p>{story.slides[currentSlide]?.description}</p>
-          <div className="story-actions">
-            <img
-              src={isBookmarked ? bookmarkBlue : bookmarkWhite}
-              alt="Bookmark"
-              className="bookmark-btn"
-              onClick={handleYourBookmark}
-            />
-
-            <div className="like-btn" onClick={handleLikeButton}>
-              <span>{isLiked ? "❤️" : "🤍"}</span>
-              <span> {likeCount} </span>
-            </div>
-            <div className="share-btn" onClick={handleCopyLink}>
-              ⇗
+        <div
+          className="story-image-container"
+          style={{
+            backgroundImage: `url(${story.slides[currentSlide]?.imageUrl})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+          }}
+        >
+          <div className="story-details">
+            <h3>{story.slides[currentSlide]?.heading}</h3>
+            <p>{story.slides[currentSlide]?.description}</p>
+            <div className="story-actions">
+              <img
+                src={isBookmarked ? bookmarkBlue : bookmarkWhite}
+                alt="Bookmark"
+                className="bookmark-btn"
+                onClick={handleYourBookmark}
+              />
+              <div className="like-btn" onClick={handleLikeButton}>
+                <img
+                  src={isLiked ? likeRed : likeWhite}
+                  alt="like"
+                  className="likeIcon"
+                />
+                <div className="like-counter"> {likeCount} </div>
+              </div>
+              <div />
             </div>
           </div>
         </div>
+
+        <img
+          src={share}
+          alt="share icon"
+          className="share-btn"
+          onClick={handleCopyLink}
+        />
+      </div>
+      <div
+        className="nav-arrow right-arrow"
+        onClick={goToNextSlide}
+        disabled={currentSlide === totalSlides - 1}
+      >
+        》
       </div>
     </div>
   );

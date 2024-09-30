@@ -17,15 +17,15 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.8);
 }
 
 .view-story-content {
   position: relative;
   background: rgba(0, 0, 0, 0.5);
-  padding: 20px;
-  width: 80%;
+  width: 25%;
   max-width: 800px;
+  height: 70%;
   border-radius: 8px;
   z-index: 1001;
 }
@@ -36,6 +36,12 @@
   justify-content: center;
   align-items: center;
   margin-bottom: 20px;
+  width: 100%;
+  height: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 10px;
+  border-radius: 5px;
 }
 
 .story-image img {
@@ -45,9 +51,6 @@
 }
 
 .nav-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
   background-color: rgba(0, 0, 0, 0.5);
   background: none;
   color: white;
@@ -59,25 +62,28 @@
 }
 
 .left-arrow {
-  left: 10px;
+  margin-right: 100px;
 }
 
 .right-arrow {
-  right: 10px;
+  margin-left: 100px;
 }
 
 .story-details {
-  margin-top: 20px;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  background: linear-gradient(0deg, #000000 59.6%, rgba(0, 0, 0, 0) 102.31%);
 }
 
 .story-details h3 {
-  font-size: 24px;
+  font-size: 20px;
   margin-bottom: 10px;
   color: white;
 }
 
 .story-details p {
-  font-size: 18px;
+  font-size: 10px;
 }
 
 .story-actions {
@@ -95,12 +101,23 @@
   font-size: 30px;
   margin-right: 10px;
   cursor: pointer;
-  height: 30px;
+  height: 40px;
   width: 50px;
 }
 
 .like-btn {
-  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.like-counter {
+  margin-left: 10px;
+  font-size: 16px;
+}
+
+.likeIcon {
+  width: 40px;
 }
 
 .close-btn {
@@ -109,7 +126,7 @@
   left: 0;
   background-color: transparent;
   border: none;
-  font-size: 20px;
+  font-size: 30px;
   cursor: pointer;
   color: white;
   z-index: 5;
@@ -120,9 +137,9 @@
   position: absolute;
   top: 10px;
   right: 10px;
-  background-color: transparent;
   border: none;
-  font-size: 20px;
   cursor: pointer;
-  color: white;
+  z-index: 5;
+  width: 30px;
+  margin-top: 10px;
 }
