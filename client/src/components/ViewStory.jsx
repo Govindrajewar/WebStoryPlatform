@@ -17,6 +17,7 @@ function ViewStory({ story, onClose }) {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const totalSlides = story?.slides.length || 0;
   const [isDownload, setIsDownload] = useState(false);
+  // eslint-disable-next-line
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
@@ -136,12 +137,43 @@ function ViewStory({ story, onClose }) {
     ));
   };
 
-  const handleDownloadButton = () => {
-    setIsDownload(true);
-    alert("Downloaded Successfully");
-    setTimeout(() => {
-      setIsDownload(false);
-    }, 1000);
+  const handleDownloadButton = async () => {
+    const imageUrl = story.slides[currentSlide]?.imageUrl;
+
+    if (imageUrl) {
+      try {
+        const response = await fetch(imageUrl, {
+          mode: "cors",
+        });
+
+        if (!response.ok) {
+          throw new Error("Image download failed");
+        }
+
+        const blob = await response.blob();
+        const blobUrl = window.URL.createObjectURL(blob);
+
+        // Create an anchor element and trigger the download
+        const link = document.createElement("a");
+        link.href = blobUrl;
+        link.download = `slide-${currentSlide + 1}.jpg`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+
+        window.URL.revokeObjectURL(blobUrl);
+
+        setIsDownload(true);
+        setTimeout(() => {
+          setIsDownload(false);
+        }, 1000);
+      } catch (error) {
+        console.error("Download failed:", error);
+        alert("Failed to download the image.");
+      }
+    } else {
+      alert("Image not available for download.");
+    }
   };
 
   return (
