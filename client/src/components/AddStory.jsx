@@ -104,22 +104,15 @@ function AddStory({ setIsAddingStory, initialStoryData }) {
     };
 
     try {
-      let response;
-
       if (initialStoryData) {
-        response = await axios.put(
+        await axios.put(
           `${BACKEND_URL}/api/stories/${initialStoryData._id}`,
           storyData
         );
         alert("Story Updated Successfully");
-        console.log(response.data);
       } else {
-        response = await axios.post(
-          `${BACKEND_URL}/api/stories/addNewStory`,
-          storyData
-        );
+        await axios.post(`${BACKEND_URL}/api/stories/addNewStory`, storyData);
         alert("Story Posted Successfully");
-        console.log(response.data);
       }
 
       // Clear all fields

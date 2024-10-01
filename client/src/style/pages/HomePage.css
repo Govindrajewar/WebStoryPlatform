@@ -116,7 +116,7 @@
 }
 
 .no-stories {
-  width: 400%;
+  width: 100vw;
   text-align: center;
   font-size: 30px;
   font-weight: bold;
@@ -128,8 +128,8 @@
   top: 95%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 10;
-  padding: 10px;
+  z-index: 0;
+  padding: 10px 20px;
   border-radius: 20px;
   background-color: white;
   font-size: 20px;
