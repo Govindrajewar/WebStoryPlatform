@@ -3,16 +3,20 @@ import axios from "axios";
 import "../style/components/YourBookmarks.css";
 import { BACKEND_URL } from "../deploymentLink";
 import ViewStory from "./ViewStory";
+import LoginNavBar from "./LoginNavBar";
 
 function YourBookmarks() {
   const [stories, setStories] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
   const [viewStory, setViewStory] = useState(null);
+  // eslint-disable-next-line
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     const user = localStorage.getItem("currentUser");
     if (user) {
       setCurrentUser(user);
+      setIsLoggedIn(true);
     }
   }, []);
 
@@ -44,6 +48,7 @@ function YourBookmarks() {
 
   return (
     <div className="yourbookmarks">
+      <LoginNavBar setIsLoggedIn={setIsLoggedIn} />
       <h2>Your Bookmarks</h2>
       <div className="your-stories">
         {stories.length > 0 ? (

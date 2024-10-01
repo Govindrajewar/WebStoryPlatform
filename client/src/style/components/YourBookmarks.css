@@ -1,11 +1,22 @@
 .yourbookmarks {
-  padding: 20px;
+  height: 100vh;
+  width: 100vw;
+  overflow-x: hidden;
+  padding-bottom: 50px;
+}
+
+.yourbookmarks h2{
+  font-size: 30px;
+  font-weight: 700;
+  color: #000000;
+  margin: 50px;
 }
 
 .your-stories {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 50px 20px;
   justify-items: center;
 }
 

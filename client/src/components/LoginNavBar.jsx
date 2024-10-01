@@ -3,8 +3,11 @@ import "../style/components/LoginNavBar.css";
 import bookmark from "../assets/HomePage/LoginNavBar/bookmark.jpg";
 import hamburger from "../assets/HomePage/LoginNavBar/hamburger.png";
 import AddStory from "./AddStory.jsx";
+import { useNavigate } from "react-router-dom";
 
-function LoginNavBar({ setIsLoggedIn, setIsShowBookmarks }) {
+function LoginNavBar({ setIsLoggedIn }) {
+  const navigate = useNavigate();
+
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [isAddingStory, setIsAddingStory] = useState(false);
   const [currentUser, selectedUser] = useState("");
@@ -14,6 +17,7 @@ function LoginNavBar({ setIsLoggedIn, setIsShowBookmarks }) {
     setIsLoggedIn(false);
     localStorage.removeItem("IsLoggedIn");
     localStorage.removeItem("currentUser");
+    navigate("/");
   };
 
   const handleHamburger = () => {
@@ -21,11 +25,11 @@ function LoginNavBar({ setIsLoggedIn, setIsShowBookmarks }) {
   };
 
   const handleBookmarkPage = () => {
-    setIsShowBookmarks(true);
+    navigate("/your-bookmarks");
   };
 
   const handleProfilePage = () => {
-    setIsShowBookmarks(false);
+    navigate("/");
   };
 
   const handleAddStory = () => {

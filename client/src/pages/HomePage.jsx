@@ -3,6 +3,7 @@ import axios from "axios";
 import "../style/pages/HomePage.css";
 import NavBar from "../components/NavBar";
 import LoginNavBar from "../components/LoginNavBar";
+// eslint-disable-next-line
 import YourBookmarks from "../components/YourBookmarks";
 import { BACKEND_URL } from "../deploymentLink";
 import EditButton from "../assets/HomePage/EditButton.png";
@@ -12,6 +13,7 @@ import Footer from "../components/Footer";
 
 function HomePage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // eslint-disable-next-line
   const [isShowBookmarks, setIsShowBookmarks] = useState(false);
   const [categories] = useState(["All", "Medical", "Fruits", "World", "India"]);
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -99,15 +101,11 @@ function HomePage() {
       {isLoggedIn ? (
         <LoginNavBar
           setIsLoggedIn={setIsLoggedIn}
-          setIsShowBookmarks={setIsShowBookmarks}
         />
       ) : (
         <NavBar />
       )}
 
-      {isShowBookmarks ? (
-        <YourBookmarks />
-      ) : (
         <>
           {/* categories list */}
           <div className="categories">
@@ -249,7 +247,7 @@ function HomePage() {
             <ViewStory story={viewStory} onClose={closeViewStory} />
           )}
         </>
-      )}
+
       <Footer/>
     </div>
   );
