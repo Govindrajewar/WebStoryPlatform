@@ -200,6 +200,9 @@ function ViewStory({ story, onClose }) {
           }}
         >
           <div className="story-details">
+            {isDownload && (
+              <div className="download-message">Downloaded Successfully</div>
+            )}
             <h3>{story.slides[currentSlide]?.heading}</h3>
             <p>{story.slides[currentSlide]?.description}</p>
             <div className="story-actions">

@@ -164,3 +164,13 @@
   color: #fff;
   font-weight: bold;
 }
+
+.download-message {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, 0);
+  width: 100%;
+  font-size: 16px;
+  font-family: monospace;
+}
