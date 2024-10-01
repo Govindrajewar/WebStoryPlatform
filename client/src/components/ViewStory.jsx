@@ -7,6 +7,8 @@ import { BACKEND_URL } from "../deploymentLink.js";
 import likeWhite from "../assets/ViewStory/likeWhite.png";
 import likeRed from "../assets/ViewStory/likeRed.png";
 import share from "../assets/ViewStory/share.png";
+import download from "../assets/ViewStory/download.png";
+import download_done from "../assets/ViewStory/download_done.png";
 
 function ViewStory({ story, onClose }) {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -14,6 +16,15 @@ function ViewStory({ story, onClose }) {
   const [likeCount, setLikeCount] = useState(0);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const totalSlides = story?.slides.length || 0;
+  const [isDownload, setIsDownload] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const isLoggedIn = localStorage.getItem("IsLoggedIn");
+    if (isLoggedIn === "true") {
+      setIsLoggedIn(true);
+    }
+  }, []);
 
   useEffect(() => {
     if (story) {
@@ -125,6 +136,14 @@ function ViewStory({ story, onClose }) {
     ));
   };
 
+  const handleDownloadButton = () => {
+    setIsDownload(true);
+    alert("Downloaded Successfully");
+    setTimeout(() => {
+      setIsDownload(false);
+    }, 1000);
+  };
+
   return (
     <div className="view-story-modal">
       <div className="view-story-overlay" onClick={onClose} />
@@ -158,6 +177,15 @@ function ViewStory({ story, onClose }) {
                 className="bookmark-btn"
                 onClick={handleYourBookmark}
               />
+              {isLoggedIn && (
+                <img
+                  src={isDownload ? download_done : download}
+                  alt="download"
+                  className="download-btn"
+                  onClick={handleDownloadButton}
+                />
+              )}
+
               <div className="like-btn" onClick={handleLikeButton}>
                 <img
                   src={isLiked ? likeRed : likeWhite}
