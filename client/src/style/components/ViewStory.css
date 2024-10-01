@@ -59,7 +59,7 @@
   padding: 10px 20px;
   font-size: 50px;
   cursor: pointer;
-  z-index: 11;
+  z-index: 21;
 }
 
 .left-arrow {
@@ -145,10 +145,12 @@
 }
 
 .slide-indicators {
+  position: absolute;
   display: flex;
   flex: 1;
   justify-content: space-between;
-  width: 100%;
+  width: 30%;
+  z-index: 1001;
 }
 
 .dash {
@@ -161,7 +163,6 @@
 
 .highlighted {
   color: #fff;
-  font-weight: bold;
 }
 
 .download-message {
@@ -172,4 +173,110 @@
   width: 100%;
   font-size: 16px;
   font-family: monospace;
+}
+
+/* For mobile phones */
+@media (max-width: 600px) {
+  .view-story-modal {
+    background-color: #ffffff;
+  }
+
+  .view-story-content {
+    width: 90%;
+    height: auto;
+    background: transparent;
+  }
+
+  .nav-arrow {
+    font-size: 30px;
+    padding: 5px;
+  }
+
+  .left-arrow {
+    margin-right: 30px;
+  }
+
+  .right-arrow {
+    margin-left: 30px;
+  }
+
+  .story-details h3 {
+    font-size: 20px;
+  }
+
+  .story-actions {
+    flex-direction: column;
+  }
+
+  .bookmark-btn,
+  .download-btn,
+  .like-btn {
+    font-size: 20px;
+    padding: 5px;
+  }
+
+  .like-counter {
+    font-size: 14px;
+  }
+
+  .dash {
+    font-size: 50px;
+    top: -425px;
+  }
+
+  .download-message {
+    font-size: 14px;
+  }
+
+  .close-btn {
+    position: absolute;
+    top: -350px;
+    left: -60px;
+    background-color: transparent;
+    border: none;
+    font-size: 30px;
+    cursor: pointer;
+    color: white;
+    z-index: 5;
+    width: fit-content;
+  }
+
+  .share-btn {
+    position: absolute;
+    top: -350px;
+    right: -60px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: white;
+    z-index: 5;
+    width: fit-content;
+    height: 30px;
+  }
+
+  .story-details {
+    width: 100vw;
+    position: absolute;
+    background: linear-gradient(0deg, #000000 59.6%, rgba(0, 0, 0, 0) 102.31%);
+    display: flex;
+    flex-direction: column;
+    bottom: -430px;
+  }
+
+  .story-actions {
+    width: 100%;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-bottom: 30px;
+  }
+
+  .slide-indicators {
+    position: absolute;
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    width: 80vw;
+  }
 }

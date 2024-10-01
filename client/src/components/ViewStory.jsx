@@ -22,12 +22,22 @@ function ViewStory() {
   const totalSlides = story?.slides.length || 0;
   const [isDownload, setIsDownload] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const isLoggedIn = localStorage.getItem("IsLoggedIn");
     if (isLoggedIn === "true") {
       setIsLoggedIn(true);
     }
+
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 600);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   useEffect(() => {
@@ -200,9 +210,19 @@ function ViewStory() {
     }
   };
 
+  const mobileBackgroundStyle = {
+    backgroundImage: `url(${story.slides[currentSlide]?.imageUrl})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat",
+  };
+
   return (
-    <div className="view-story-modal">
-      <div className="view-story-overlay" />
+    <div
+      className="view-story-modal"
+      style={isMobile ? mobileBackgroundStyle : {}}
+    >
+      {!isMobile && <div className="view-story-overlay" />}
       <div
         className="nav-arrow left-arrow"
         onClick={goToPreviousSlide}
@@ -214,51 +234,83 @@ function ViewStory() {
         <button className="close-btn" onClick={() => navigate("/")}>
           ✖
         </button>
-        <div
-          className="story-image-container"
-          style={{
-            backgroundImage: `url(${story.slides[currentSlide]?.imageUrl})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-          }}
-        >
-          <div className="story-details">
-            {isDownload && (
-              <div className="download-message">Downloaded Successfully</div>
-            )}
-            <h3>{story.slides[currentSlide]?.heading}</h3>
-            <p>{story.slides[currentSlide]?.description}</p>
-            <div className="story-actions">
-              <img
-                src={isBookmarked ? bookmarkBlue : bookmarkWhite}
-                alt="Bookmark"
-                className="bookmark-btn"
-                onClick={handleYourBookmark}
-              />
-              {isLoggedIn && (
-                <img
-                  src={isDownload ? download_done : download}
-                  alt="download"
-                  className="download-btn"
-                  onClick={handleDownloadButton}
-                />
+        {!isMobile ? (
+          <div
+            className="story-image-container"
+            style={{
+              backgroundImage: `url(${story.slides[currentSlide]?.imageUrl})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+            }}
+          >
+            <div className="story-details">
+              {isDownload && (
+                <div className="download-message">Downloaded Successfully</div>
               )}
-
-              <div className="like-btn" onClick={handleLikeButton}>
+              <h3>{story.slides[currentSlide]?.heading}</h3>
+              <p>{story.slides[currentSlide]?.description}</p>
+              <div className="story-actions">
                 <img
-                  src={isLiked ? likeRed : likeWhite}
-                  alt="like"
-                  className="likeIcon"
+                  src={isBookmarked ? bookmarkBlue : bookmarkWhite}
+                  alt="Bookmark"
+                  className="bookmark-btn"
+                  onClick={handleYourBookmark}
                 />
-                <div className="like-counter"> {likeCount} </div>
+                {isLoggedIn && (
+                  <img
+                    src={isDownload ? download_done : download}
+                    alt="download"
+                    className="download-btn"
+                    onClick={handleDownloadButton}
+                  />
+                )}
+                <div className="like-btn" onClick={handleLikeButton}>
+                  <img
+                    src={isLiked ? likeRed : likeWhite}
+                    alt="like"
+                    className="likeIcon"
+                  />
+                  <div className="like-counter"> {likeCount} </div>
+                </div>
               </div>
-              <div />
             </div>
           </div>
-          <div className="slide-indicators">{renderSlideIndicators()}</div>
-        </div>
-
+        ) : (
+          <div className="story-image-container">
+            <div className="story-details">
+              {isDownload && (
+                <div className="download-message">Downloaded Successfully</div>
+              )}
+              <h3>{story.slides[currentSlide]?.heading}</h3>
+              <p>{story.slides[currentSlide]?.description}</p>
+              <div className="story-actions">
+                <img
+                  src={isBookmarked ? bookmarkBlue : bookmarkWhite}
+                  alt="Bookmark"
+                  className="bookmark-btn"
+                  onClick={handleYourBookmark}
+                />
+                {isLoggedIn && (
+                  <img
+                    src={isDownload ? download_done : download}
+                    alt="download"
+                    className="download-btn"
+                    onClick={handleDownloadButton}
+                  />
+                )}
+                <div className="like-btn" onClick={handleLikeButton}>
+                  <img
+                    src={isLiked ? likeRed : likeWhite}
+                    alt="like"
+                    className="likeIcon"
+                  />
+                  <div className="like-counter"> {likeCount} </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
         <img
           src={share}
           alt="share icon"
@@ -273,6 +325,7 @@ function ViewStory() {
       >
         》
       </div>
+      <div className="slide-indicators">{renderSlideIndicators()}</div>
     </div>
   );
 }
