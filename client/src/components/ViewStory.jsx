@@ -178,7 +178,7 @@ function ViewStory({ story, onClose }) {
 
   return (
     <div className="view-story-modal">
-      <div className="view-story-overlay" onClick={onClose} />
+      <div className="view-story-overlay" />
       <div
         className="nav-arrow left-arrow"
         onClick={goToPreviousSlide}

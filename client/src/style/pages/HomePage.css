@@ -148,7 +148,7 @@ h4 {
 }
 
 /* For mobile phones */
-@media (max-width: 767px) {
+@media (max-width: 600px) {
   .categories,
   .story-cards,
   .stories {
