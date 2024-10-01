@@ -10,7 +10,7 @@ function NavBar() {
         Register Now
       </div>
       <div className="signIn-btn" onClick={() => navigate("/login")}>
-        Sign In
+        Login
       </div>
     </div>
   );
