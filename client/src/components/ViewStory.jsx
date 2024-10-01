@@ -4,7 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import bookmarkWhite from "../assets/ViewStory/bookmarkWhite.png";
 import bookmarkBlue from "../assets/ViewStory/bookmarkBlue.png";
 import axios from "axios";
-import { BACKEND_URL } from "../deploymentLink.js";
+import { BACKEND_URL, FRONTEND_URL } from "../deploymentLink.js";
 import likeWhite from "../assets/ViewStory/likeWhite.png";
 import likeRed from "../assets/ViewStory/likeRed.png";
 import share from "../assets/ViewStory/share.png";
@@ -95,12 +95,12 @@ function ViewStory() {
   };
 
   const handleCopyLink = () => {
-    const baseUrl = window.location.origin;
     const storyId = story._id;
-    const slideUrl = `${baseUrl}/stories/view/${storyId}/slide/${
+    const storyUrl = `${FRONTEND_URL}/stories/${storyId}`;
+    const slideUrl = `${FRONTEND_URL}/stories/${storyId}/slide/${
       currentSlide + 1
     }`;
-    navigator.clipboard.writeText(slideUrl).then(() => {
+    navigator.clipboard.writeText(storyUrl).then(() => {
       alert("Story slide URL copied to clipboard!");
     });
   };
