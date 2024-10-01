@@ -1,56 +1,3 @@
-/* For large screens */
-@media (min-width: 1025px) {
-  .categories,
-  .story-cards,
-  .stories {
-    grid-template-columns: repeat(4, 1fr);
-  }
-
-  .categories {
-    grid-template-columns: repeat(5, 1fr);
-  }
-
-  .category-item,
-  .story-card {
-    width: 235px;
-    height: 235px;
-  }
-}
-
-/* For mobile phones */
-@media (max-width: 767px) {
-  .categories,
-  .story-cards,
-  .stories {
-    grid-template-columns: 1fr;
-  }
-
-  .category-item,
-  .story-card {
-    width: 100%;
-    height: auto;
-    margin-bottom: 20px;
-  }
-
-  .story-data h3 {
-    font-size: 16px;
-  }
-
-  .story-data p {
-    font-size: 12px;
-  }
-
-  h4 {
-    font-size: 24px;
-    margin: 30px;
-  }
-
-  .see-more-btn {
-    font-size: 16px;
-    padding: 8px 16px;
-  }
-}
-
 /* General styles for the page */
 .homepage {
   min-height: 100vh;
@@ -99,6 +46,7 @@
 }
 .categories .India {
   background-image: url("../../assets/HomePage/India.png");
+  background-size: cover;
 }
 
 .story-cards,
@@ -197,4 +145,49 @@
 h4 {
   font-size: 30px;
   margin: 50px;
+}
+
+/* For mobile phones */
+@media (max-width: 767px) {
+  .categories,
+  .story-cards,
+  .stories {
+    grid-template-columns: 1fr;
+  }
+
+  .category-item,
+  .story-card {
+    width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+  }
+
+  .categories {
+    display: flex;
+    overflow-x: auto;
+    gap: 20px;
+    margin-top: 20px;
+    padding: 10px;
+    scroll-behavior: smooth;
+  }
+
+  .category-item {
+    width: 80%;
+    margin-inline: auto;
+    flex: 0 0 auto;
+    height: 300px;
+  }
+
+  .story-data h3 {
+    font-size: 16px;
+  }
+
+  .story-data p {
+    font-size: 12px;
+  }
+
+  .see-more-btn {
+    font-size: 16px;
+    padding: 8px 16px;
+  }
 }

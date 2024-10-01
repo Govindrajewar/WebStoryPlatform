@@ -87,8 +87,12 @@
 }
 
 @media (max-width: 480px) {
+  .your-stories {
+    grid-template-columns: 1fr;
+  }
+
   .story-card {
-    height: 300px;
+    height: 500px;
   }
 
   .story-data h3 {
