@@ -5,7 +5,8 @@ const {
   getAllStories,
   getStoriesByCategory,
   getStoriesByUser,
-  getStoryById, // Import the new getStoryById function
+  getStoryById,
+  getStorySlideByNumber,
 } = require("../controllers/storiesControllers.js");
 
 const router = express.Router();
@@ -15,6 +16,7 @@ router.put("/:id", updateStory);
 router.get("/allStories", getAllStories);
 router.get("/category/:category", getStoriesByCategory);
 router.get("/user/:userEmail", getStoriesByUser);
-router.get("/:storyId", getStoryById); // Add route to get a single story
+router.get("/:storyId", getStoryById);
+router.get("/:storyId/slide/:slideNumber", getStorySlideByNumber);
 
 module.exports = router;

@@ -16,6 +16,7 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/your-bookmarks" element={<YourBookmarks />} />
           <Route path="/stories/:storyId" element={<ViewStory />} />
+          <Route path="/stories/:storyId/slide/:slideNumber" element={<ViewStory />} />
         </Routes>
       </BrowserRouter>
     </div>

@@ -12,7 +12,7 @@ import download from "../assets/ViewStory/download.png";
 import download_done from "../assets/ViewStory/download_done.png";
 
 function ViewStory() {
-  const { storyId } = useParams();
+  const { storyId, slideNumber } = useParams();
   const navigate = useNavigate();
   const [story, setStory] = useState(null);
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -53,17 +53,22 @@ function ViewStory() {
           `${BACKEND_URL}/api/stories/${storyId}`
         );
         setStory(response.data);
+
+        if (slideNumber) {
+          setCurrentSlide(parseInt(slideNumber, 10) - 1);
+        } else {
+          setCurrentSlide(0);
+        }
       } catch (error) {
         console.error("Error fetching story:", error);
       }
     };
 
     fetchStory();
-  }, [storyId]);
+  }, [storyId, slideNumber]);
 
   useEffect(() => {
     if (story) {
-      setCurrentSlide(0);
       setIsBookmarked(false);
 
       // Fetch initial like count and liked status from the backend
@@ -95,12 +100,10 @@ function ViewStory() {
   };
 
   const handleCopyLink = () => {
-    const storyId = story._id;
-    const storyUrl = `${FRONTEND_URL}/stories/${storyId}`;
     const slideUrl = `${FRONTEND_URL}/stories/${storyId}/slide/${
       currentSlide + 1
     }`;
-    navigator.clipboard.writeText(storyUrl).then(() => {
+    navigator.clipboard.writeText(slideUrl).then(() => {
       alert("Story slide URL copied to clipboard!");
     });
   };

@@ -89,11 +89,35 @@ const getStoriesByUser = async (req, res) => {
   }
 };
 
+// Fetch a specific slide by storyId and slideNumber
+const getStorySlideByNumber = async (req, res) => {
+  const { storyId, slideNumber } = req.params;
+
+  try {
+    const story = await Story.findById(storyId);
+
+    if (!story || !story.slides) {
+      return res.status(404).json({ message: "Story or slides not found" });
+    }
+
+    const slideIndex = parseInt(slideNumber) - 1;
+    if (slideIndex >= story.slides.length || slideIndex < 0) {
+      return res.status(404).json({ message: "Slide not found" });
+    }
+
+    const slide = story.slides[slideIndex];
+    res.status(200).json(slide);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch slide" });
+  }
+};
+
 module.exports = {
   addNewStory,
   updateStory,
   getAllStories,
   getStoriesByCategory,
   getStoriesByUser,
-  getStoryById,  // Added new controller for fetching a single story
+  getStoryById,
+  getStorySlideByNumber,
 };
