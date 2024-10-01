@@ -75,16 +75,14 @@
   position: absolute;
   bottom: 0;
   background: linear-gradient(0deg, #000000 59.6%, rgba(0, 0, 0, 0) 102.31%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .story-details h3 {
-  font-size: 20px;
   margin-bottom: 10px;
   color: white;
-}
-
-.story-details p {
-  font-size: 10px;
 }
 
 .story-actions {
