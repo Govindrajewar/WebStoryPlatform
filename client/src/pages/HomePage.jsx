@@ -4,7 +4,7 @@ import "../style/pages/HomePage.css";
 import NavBar from "../components/NavBar";
 import LoginNavBar from "../components/LoginNavBar";
 // eslint-disable-next-line
-import YourBookmarks from "../components/YourBookmarks";
+import { useNavigate } from "react-router-dom";
 import { BACKEND_URL } from "../deploymentLink";
 import EditButton from "../assets/HomePage/EditButton.png";
 import AddStory from "../components/AddStory";
@@ -24,6 +24,7 @@ function HomePage() {
   const [isAddingStory, setIsAddingStory] = useState(false);
   const [selectedStory, setSelectedStory] = useState(null);
   const [viewStory, setViewStory] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const isLoggedInLocal = localStorage.getItem("IsLoggedIn");
@@ -89,7 +90,7 @@ function HomePage() {
   };
 
   const handleViewStory = (story) => {
-    setViewStory(story);
+    navigate(`/stories/${story._id}`);
   };
 
   const closeViewStory = () => {

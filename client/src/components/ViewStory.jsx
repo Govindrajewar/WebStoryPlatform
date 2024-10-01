@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../style/components/ViewStory.css";
+import { useParams, useNavigate } from "react-router-dom";
 import bookmarkWhite from "../assets/ViewStory/bookmarkWhite.png";
 import bookmarkBlue from "../assets/ViewStory/bookmarkBlue.png";
 import axios from "axios";
@@ -10,14 +11,16 @@ import share from "../assets/ViewStory/share.png";
 import download from "../assets/ViewStory/download.png";
 import download_done from "../assets/ViewStory/download_done.png";
 
-function ViewStory({ story, onClose }) {
+function ViewStory() {
+  const { storyId } = useParams();
+  const navigate = useNavigate();
+  const [story, setStory] = useState(null);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const totalSlides = story?.slides.length || 0;
   const [isDownload, setIsDownload] = useState(false);
-  // eslint-disable-next-line
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
@@ -26,6 +29,27 @@ function ViewStory({ story, onClose }) {
       setIsLoggedIn(true);
     }
   }, []);
+
+  useEffect(() => {
+    const isLoggedInLocal = localStorage.getItem("IsLoggedIn");
+    if (isLoggedInLocal === "true") {
+      setIsLoggedIn(true);
+    }
+
+    // Fetch the story based on the storyId from the URL
+    const fetchStory = async () => {
+      try {
+        const response = await axios.get(
+          `${BACKEND_URL}/api/stories/${storyId}`
+        );
+        setStory(response.data);
+      } catch (error) {
+        console.error("Error fetching story:", error);
+      }
+    };
+
+    fetchStory();
+  }, [storyId]);
 
   useEffect(() => {
     if (story) {
@@ -187,7 +211,7 @@ function ViewStory({ story, onClose }) {
         《
       </div>
       <div className="view-story-content">
-        <button className="close-btn" onClick={onClose}>
+        <button className="close-btn" onClick={() => navigate("/")}>
           ✖
         </button>
         <div

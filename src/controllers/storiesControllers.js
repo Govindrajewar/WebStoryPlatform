@@ -42,6 +42,22 @@ const getAllStories = async (req, res) => {
   }
 };
 
+// Fetch a story by storyId
+const getStoryById = async (req, res) => {
+  const { storyId } = req.params;
+
+  try {
+    const story = await Story.findById(storyId);
+    if (story) {
+      res.status(200).json(story);
+    } else {
+      res.status(404).json({ message: "Story not found" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch story" });
+  }
+};
+
 // Fetch stories by category
 const getStoriesByCategory = async (req, res) => {
   const { category } = req.params;
@@ -79,4 +95,5 @@ module.exports = {
   getAllStories,
   getStoriesByCategory,
   getStoriesByUser,
+  getStoryById,  // Added new controller for fetching a single story
 };

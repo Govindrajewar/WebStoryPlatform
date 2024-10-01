@@ -11,7 +11,7 @@ const storySchema = new mongoose.Schema({
   createdBy: { type: String, required: true },
   category: { type: String, required: true },
   slides: [slideSchema],
-  likedBy: { type: [String], default: [] },
+  likedBy: { type: [String], default: [] },  // List of users who liked the story
 });
 
 const Story = mongoose.model("Story", storySchema);
