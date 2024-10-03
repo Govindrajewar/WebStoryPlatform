@@ -2,15 +2,15 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../style/components/YourBookmarks.css";
 import { BACKEND_URL } from "../deploymentLink";
-import ViewStory from "./ViewStory";
 import LoginNavBar from "./LoginNavBar";
+import { useNavigate } from "react-router-dom";
 
 function YourBookmarks() {
   const [stories, setStories] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
-  const [viewStory, setViewStory] = useState(null);
   // eslint-disable-next-line
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const user = localStorage.getItem("currentUser");
@@ -39,11 +39,7 @@ function YourBookmarks() {
   }, [currentUser]);
 
   const handleViewStory = (story) => {
-    setViewStory(story);
-  };
-
-  const closeViewStory = () => {
-    setViewStory(null);
+    navigate(`/stories/${story._id}`);
   };
 
   return (
@@ -80,7 +76,6 @@ function YourBookmarks() {
           <p>No bookmarked stories found.</p>
         )}
       </div>
-      {viewStory && <ViewStory story={viewStory} onClose={closeViewStory} />}
     </div>
   );
 }
