@@ -5,6 +5,7 @@ const {
   updateBookmark,
   getUserData,
   getUserBookmarkedStories,
+  getUserBookmarkedStoriesID,
   updateLike,
   likeStatus,
   toggleLike,
@@ -17,6 +18,7 @@ router.post("/login", loginController);
 router.put("/updateBookmark", updateBookmark);
 router.get("/getUserData", getUserData);
 router.get("/:email/bookmarks", getUserBookmarkedStories);
+router.get("/:email/bookmarksId", getUserBookmarkedStoriesID);
 router.put("/updateLike", updateLike);
 router.get("/:storyId/likeStatus", likeStatus);
 router.put("/:storyId/toggleLike", toggleLike);

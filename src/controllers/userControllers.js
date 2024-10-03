@@ -152,6 +152,22 @@ const getUserBookmarkedStories = async (req, res) => {
   }
 };
 
+const getUserBookmarkedStoriesID = async (req, res) => {
+  const { email } = req.params;
+
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({ bookmarks: user.bookmarks });
+  } catch (error) {
+    console.error("Error fetching user bookmarks:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 // Add/Remove Like Story
 const updateLike = async (req, res) => {
   const { storyId, userEmail } = req.body;
@@ -237,6 +253,7 @@ module.exports = {
   updateBookmark,
   getUserData,
   getUserBookmarkedStories,
+  getUserBookmarkedStoriesID,
   updateLike,
   likeStatus,
   toggleLike,

@@ -69,7 +69,25 @@ function ViewStory() {
 
   useEffect(() => {
     if (story) {
-      setIsBookmarked(false);
+      const currentUser = localStorage.getItem("currentUser");
+
+      if (!currentUser) {
+        console.error("No user found in local storage.");
+        alert("You need to log in to see bookmarks.");
+        return;
+      }
+
+      // Fetch bookmarks for the logged-in user from the backend
+      axios
+        .get(`${BACKEND_URL}/api/users/${currentUser}/bookmarksId`)
+        .then((response) => {
+          const bookmarks = response.data.bookmarks;
+          const isStoryBookmarked = bookmarks.includes(story._id);
+          setIsBookmarked(isStoryBookmarked);
+        })
+        .catch((error) => {
+          console.error("Error fetching bookmark status:", error);
+        });
 
       // Fetch initial like count and liked status from the backend
       axios
