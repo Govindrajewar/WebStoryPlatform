@@ -89,12 +89,23 @@ function ViewStory() {
           console.error("Error fetching bookmark status:", error);
         });
 
+      // Fetch likedStories for the logged-in user from the backend
+      axios
+        .get(`${BACKEND_URL}/api/users/${currentUser}/LikedId`)
+        .then((response) => {
+          const likedStories = response.data.likedStories;
+          const isStoryLiked = likedStories.includes(story._id);
+          setIsLiked(isStoryLiked);
+        })
+        .catch((error) => {
+          console.error("Error fetching bookmark status:", error);
+        });
+
       // Fetch initial like count and liked status from the backend
       axios
         .get(`${BACKEND_URL}/api/users/${story._id}/likeStatus`)
         .then((response) => {
-          const { isLikedByUser, likes } = response.data;
-          setIsLiked(isLikedByUser);
+          const { likes } = response.data;
           setLikeCount(likes);
         })
         .catch((error) => {
@@ -163,6 +174,7 @@ function ViewStory() {
     }
 
     try {
+      handleYourLike();
       const response = await axios.put(
         `${BACKEND_URL}/api/users/${story._id}/toggleLike`,
         {
@@ -170,11 +182,33 @@ function ViewStory() {
         }
       );
 
-      const { isLiked: newLikeStatus, likeCount: updatedLikeCount } =
-        response.data;
+      const { likeCount: updatedLikeCount } = response.data;
 
-      setIsLiked(newLikeStatus);
       setLikeCount(updatedLikeCount);
+    } catch (error) {
+      console.error("Failed to update like:", error);
+      alert("Failed to update like. Please try again.");
+    }
+  };
+
+  // Toggle the Like status
+  const handleYourLike = async () => {
+    const currentUser = localStorage.getItem("currentUser");
+    if (!currentUser) {
+      console.error("No user found in local storage.");
+      alert("You need to log in to like stories.");
+      return;
+    }
+
+    const storyId = story._id;
+
+    try {
+      const response = await axios.put(`${BACKEND_URL}/api/users/updateLikes`, {
+        storyId,
+        userEmail: currentUser,
+      });
+      setIsLiked((prev) => !prev);
+      alert(response.data.message);
     } catch (error) {
       console.error("Failed to update like:", error);
       alert("Failed to update like. Please try again.");

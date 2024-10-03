@@ -109,6 +109,34 @@ const updateBookmark = async (req, res) => {
   }
 };
 
+// Add/Remove Likes
+const updateLikes = async (req, res) => {
+  const { storyId, userEmail } = req.body;
+
+  try {
+    const user = await User.findOne({ email: userEmail });
+    if (!user) {
+      console.error("User not found:", userEmail);
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const isLiked = user.likedStories.includes(storyId);
+
+    if (isLiked) {
+      user.likedStories = user.likedStories.filter((id) => id !== storyId);
+      await user.save();
+      return res.status(200).json({ message: "Like removed successfully." });
+    } else {
+      user.likedStories.push(storyId);
+      await user.save();
+      return res.status(200).json({ message: "Like added successfully." });
+    }
+  } catch (error) {
+    console.error("Error updating bookmark:", error);
+    return res.status(500).json({ message: "Failed to update Like." });
+  }
+};
+
 // Fetch all users data excluding Password
 const getUserData = async (req, res) => {
   try {
@@ -164,6 +192,22 @@ const getUserBookmarkedStoriesID = async (req, res) => {
     res.status(200).json({ bookmarks: user.bookmarks });
   } catch (error) {
     console.error("Error fetching user bookmarks:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+const getUserLikedStoriesID = async (req, res) => {
+  const { email } = req.params;
+
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({ likedStories: user.likedStories });
+  } catch (error) {
+    console.error("Error fetching user Likes:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -251,9 +295,11 @@ module.exports = {
   registerController,
   loginController,
   updateBookmark,
+  updateLikes,
   getUserData,
   getUserBookmarkedStories,
   getUserBookmarkedStoriesID,
+  getUserLikedStoriesID,
   updateLike,
   likeStatus,
   toggleLike,
