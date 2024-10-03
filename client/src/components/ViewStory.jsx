@@ -59,6 +59,11 @@ function ViewStory() {
         } else {
           setCurrentSlide(0);
         }
+
+        setIsLiked(
+          response.data.likedBy.includes(localStorage.getItem("currentUser"))
+        );
+        setLikeCount(response.data.likedBy.length);
       } catch (error) {
         console.error("Error fetching story:", error);
       }
@@ -69,18 +74,24 @@ function ViewStory() {
 
   useEffect(() => {
     if (story) {
-      setIsBookmarked(false);
+      const currentUser = localStorage.getItem("currentUser");
 
-      // Fetch initial like count and liked status from the backend
+      if (!currentUser) {
+        console.error("No user found in local storage.");
+        alert("You need to log in to see bookmarks.");
+        return;
+      }
+
+      // Fetch bookmarks for the logged-in user from the backend
       axios
-        .get(`${BACKEND_URL}/api/users/${story._id}/likeStatus`)
+        .get(`${BACKEND_URL}/api/users/${currentUser}/bookmarksId`)
         .then((response) => {
-          const { isLikedByUser, likes } = response.data;
-          setIsLiked(isLikedByUser);
-          setLikeCount(likes);
+          const bookmarks = response.data.bookmarks;
+          const isStoryBookmarked = bookmarks.includes(story._id);
+          setIsBookmarked(isStoryBookmarked);
         })
         .catch((error) => {
-          console.error("Error fetching like status:", error);
+          console.error("Error fetching bookmark status:", error);
         });
     }
   }, [story]);
@@ -128,14 +139,13 @@ function ViewStory() {
         }
       );
       setIsBookmarked((prev) => !prev);
-      alert(response.data.message);
     } catch (error) {
       console.error("Failed to update bookmark:", error);
       alert("Failed to update bookmark. Please try again.");
     }
   };
 
-  // Toggle the like status and update the like count
+  // Function to handle liking the story
   const handleLikeButton = async () => {
     const currentUser = localStorage.getItem("currentUser");
     if (!currentUser) {
@@ -145,18 +155,16 @@ function ViewStory() {
     }
 
     try {
-      const response = await axios.put(
-        `${BACKEND_URL}/api/users/${story._id}/toggleLike`,
-        {
-          userEmail: currentUser,
-        }
-      );
-
-      const { isLiked: newLikeStatus, likeCount: updatedLikeCount } =
-        response.data;
-
-      setIsLiked(newLikeStatus);
-      setLikeCount(updatedLikeCount);
+      const response = await axios.put(`${BACKEND_URL}/api/users/updateLike`, {
+        storyId: story._id,
+        userEmail: currentUser,
+      });
+      setIsLiked((prev) => !prev);
+      if (response.data.isLiked) {
+        setLikeCount((prevCount) => prevCount - 1);
+      } else {
+        setLikeCount((prevCount) => prevCount + 1);
+      }
     } catch (error) {
       console.error("Failed to update like:", error);
       alert("Failed to update like. Please try again.");
