@@ -30,9 +30,8 @@ app.get("/", (req, res) => {
 mongoose
   .connect(process.env.MONGODB_URL)
   .then(() => {
-    console.log("Connected to MongoDB");
     app.listen(PORT, () => {
-      console.log(`Server running on http://localhost:${PORT}`);
+      console.log(`Connected to MongoDB Server`);
     });
   })
   .catch((err) => {

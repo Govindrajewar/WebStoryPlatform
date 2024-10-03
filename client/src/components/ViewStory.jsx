@@ -139,7 +139,6 @@ function ViewStory() {
         }
       );
       setIsBookmarked((prev) => !prev);
-      alert(response.data.message);
     } catch (error) {
       console.error("Failed to update bookmark:", error);
       alert("Failed to update bookmark. Please try again.");
@@ -166,7 +165,6 @@ function ViewStory() {
       } else {
         setLikeCount((prevCount) => prevCount + 1);
       }
-      alert(response.data.message);
     } catch (error) {
       console.error("Failed to update like:", error);
       alert("Failed to update like. Please try again.");

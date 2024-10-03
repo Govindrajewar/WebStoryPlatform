@@ -1,2 +1,2 @@
-export const FRONTEND_URL = "http://localhost:3000";
-export const BACKEND_URL = "http://localhost:8080"
+export const FRONTEND_URL = "https://web-story-platform-sigma.vercel.app";
+export const BACKEND_URL = "https://webstoryplatform-server.onrender.com";
