@@ -76,12 +76,6 @@ function ViewStory() {
     if (story) {
       const currentUser = localStorage.getItem("currentUser");
 
-      if (!currentUser) {
-        console.error("No user found in local storage.");
-        alert("You need to log in to see bookmarks.");
-        return;
-      }
-
       // Fetch bookmarks for the logged-in user from the backend
       axios
         .get(`${BACKEND_URL}/api/users/${currentUser}/bookmarksId`)
