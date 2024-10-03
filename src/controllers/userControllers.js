@@ -7,7 +7,7 @@ const registerController = async (req, res) => {
   try {
     const existingUser = await User.findOne({ email: req.body.email });
     if (existingUser) {
-      return res.status(400).send({
+      return res.status(400).json({
         message: "Email already exists",
         success: false,
       });
@@ -20,24 +20,16 @@ const registerController = async (req, res) => {
     });
 
     await newUser.save();
-    res.status(201).send({
+    res.status(201).json({
       success: true,
       message: "User registered successfully",
     });
   } catch (error) {
     console.error("Error during registration:", error);
-
-    if (error.name === "ValidationError") {
-      return res.status(400).send({
-        success: false,
-        message: "Validation error",
-        details: error.errors,
-      });
-    }
-
-    return res.status(500).send({
+    res.status(500).json({
       success: false,
       message: "Internal Server Error",
+      error: error.message,
     });
   }
 };
@@ -47,7 +39,7 @@ const loginController = async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
     if (!user) {
-      return res.status(200).send({
+      return res.status(404).json({
         message: "User not found",
         success: false,
       });
@@ -55,7 +47,7 @@ const loginController = async (req, res) => {
 
     const isMatch = await bcrypt.compare(req.body.password, user.password);
     if (!isMatch) {
-      return res.status(200).send({
+      return res.status(401).json({
         message: "Invalid password",
         success: false,
       });
@@ -65,14 +57,14 @@ const loginController = async (req, res) => {
       expiresIn: "5d",
     });
 
-    res.status(200).send({
+    res.status(200).json({
       success: true,
       message: "User logged in successfully",
       token,
     });
   } catch (error) {
     console.error("Login Controller Error:", error);
-    res.status(500).send({
+    res.status(500).json({
       success: false,
       message: `Error occurred: ${error.message}`,
     });
@@ -109,8 +101,8 @@ const updateBookmark = async (req, res) => {
   }
 };
 
-// Add/Remove Likes
-const updateLikes = async (req, res) => {
+// Handle Like Button Controller
+const handleLikeButton = async (req, res) => {
   const { storyId, userEmail } = req.body;
 
   try {
@@ -121,7 +113,6 @@ const updateLikes = async (req, res) => {
     }
 
     const isLiked = user.likedStories.includes(storyId);
-
     if (isLiked) {
       user.likedStories = user.likedStories.filter((id) => id !== storyId);
       await user.save();
@@ -132,8 +123,8 @@ const updateLikes = async (req, res) => {
       return res.status(200).json({ message: "Like added successfully." });
     }
   } catch (error) {
-    console.error("Error updating bookmark:", error);
-    return res.status(500).json({ message: "Failed to update Like." });
+    console.error("Error updating like:", error);
+    return res.status(500).json({ message: "Failed to update like." });
   }
 };
 
@@ -141,7 +132,6 @@ const updateLikes = async (req, res) => {
 const getUserData = async (req, res) => {
   try {
     const user = await User.find().select("-password");
-
     res.status(200).json(user);
   } catch (error) {
     console.error("Error fetching user data:", error);
@@ -223,7 +213,6 @@ const updateLike = async (req, res) => {
     }
 
     const isLiked = story.likedBy.includes(userEmail);
-
     if (isLiked) {
       story.likes -= 1;
       story.likedBy = story.likedBy.filter((email) => email !== userEmail);
@@ -295,7 +284,7 @@ module.exports = {
   registerController,
   loginController,
   updateBookmark,
-  updateLikes,
+  handleLikeButton,
   getUserData,
   getUserBookmarkedStories,
   getUserBookmarkedStoriesID,
