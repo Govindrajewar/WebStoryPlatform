@@ -63,7 +63,7 @@ function ViewStory() {
         setIsLiked(
           response.data.likedBy.includes(localStorage.getItem("currentUser"))
         );
-        setLikeCount(response.data.likesCount);
+        setLikeCount(response.data.likedBy.length);
       } catch (error) {
         console.error("Error fetching story:", error);
       }
@@ -161,7 +161,11 @@ function ViewStory() {
         userEmail: currentUser,
       });
       setIsLiked((prev) => !prev);
-      setLikeCount(response.data.likesCount);
+      if (response.data.isLiked) {
+        setLikeCount((prevCount) => prevCount - 1);
+      } else {
+        setLikeCount((prevCount) => prevCount + 1);
+      }
       alert(response.data.message);
     } catch (error) {
       console.error("Failed to update like:", error);

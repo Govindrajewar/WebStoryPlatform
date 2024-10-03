@@ -217,12 +217,18 @@ const updateLike = async (req, res) => {
       story.likes -= 1;
       story.likedBy = story.likedBy.filter((email) => email !== userEmail);
       await story.save();
-      return res.status(200).json({ message: "Like removed successfully." });
+      return res.status(200).json({
+        message: "Like removed successfully.",
+        isLiked,
+      });
     } else {
       story.likes += 1;
       story.likedBy.push(userEmail);
       await story.save();
-      return res.status(200).json({ message: "Story liked successfully." });
+      return res.status(200).json({
+        message: "Story liked successfully.",
+        isLiked,
+      });
     }
   } catch (error) {
     console.error("Error updating like:", error);
