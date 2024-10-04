@@ -135,7 +135,7 @@
 
 .share-btn {
   position: absolute;
-  top: 50px;
+  top: -450px;
   right: 10px;
   border: none;
   cursor: pointer;
@@ -245,8 +245,8 @@
 
   .share-btn {
     position: absolute;
-    top: -300px;
-    right: -60px;
+    top: -500px;
+    right: 100px;
     background-color: rgba(00, 00, 00, 0.2);
     border: none;
     cursor: pointer;
@@ -258,12 +258,13 @@
   }
 
   .story-details {
-    width: 100vw;
+    width: 110vw;
     position: absolute;
     background: linear-gradient(0deg, #000000 59.6%, rgba(0, 0, 0, 0) 102.31%);
     display: flex;
     flex-direction: column;
-    bottom: -360px;
+    bottom: -380px;
+    left: -90px;
   }
 
   .story-actions {

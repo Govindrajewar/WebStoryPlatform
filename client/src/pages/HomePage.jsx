@@ -204,18 +204,6 @@ function HomePage() {
                       <p>No image available</p>
                     </div>
                   )}
-                  {isLoggedIn && (
-                    <div
-                      className="edit-button"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleEditStory(story);
-                      }}
-                    >
-                      <img src={EditButton} alt="Edit Button icon" />
-                      Edit
-                    </div>
-                  )}
                 </div>
               );
             })

@@ -125,6 +125,7 @@ function ViewStory() {
     const storyId = story._id;
 
     try {
+      // eslint-disable-next-line
       const response = await axios.put(
         `${BACKEND_URL}/api/users/updateBookmark`,
         {
