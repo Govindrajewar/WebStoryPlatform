@@ -190,6 +190,7 @@
   .nav-arrow {
     font-size: 30px;
     padding: 5px;
+    background-color: rgba(00, 00, 00, 0.2);
   }
 
   .left-arrow {
@@ -220,8 +221,8 @@
   }
 
   .dash {
-    font-size: 50px;
-    top: -425px;
+    font-size: 100px;
+    top: -380px;
   }
 
   .download-message {
@@ -230,28 +231,30 @@
 
   .close-btn {
     position: absolute;
-    top: -350px;
+    top: -300px;
     left: -60px;
-    background-color: transparent;
+    background-color: rgba(00, 00, 00, 0.2);
     border: none;
     font-size: 30px;
     cursor: pointer;
     color: white;
     z-index: 5;
     width: fit-content;
+    padding: 10px;
   }
 
   .share-btn {
     position: absolute;
-    top: -350px;
+    top: -300px;
     right: -60px;
-    background-color: transparent;
+    background-color: rgba(00, 00, 00, 0.2);
     border: none;
     cursor: pointer;
     color: white;
     z-index: 5;
     width: fit-content;
     height: 30px;
+    padding: 10px;
   }
 
   .story-details {
@@ -260,7 +263,7 @@
     background: linear-gradient(0deg, #000000 59.6%, rgba(0, 0, 0, 0) 102.31%);
     display: flex;
     flex-direction: column;
-    bottom: -430px;
+    bottom: -360px;
   }
 
   .story-actions {
