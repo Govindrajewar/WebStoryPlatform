@@ -135,13 +135,15 @@
 
 .share-btn {
   position: absolute;
-  top: -450px;
+  top: 50px;
   right: 10px;
+  background-color: rgba(00, 00, 00, 0.2);
   border: none;
   cursor: pointer;
   z-index: 5;
-  width: 30px;
-  margin-top: 10px;
+  width: fit-content;
+  height: 30px;
+  padding: 10px;
 }
 
 .slide-indicators {
@@ -245,12 +247,11 @@
 
   .share-btn {
     position: absolute;
-    top: -500px;
-    right: 100px;
+    top: -300px;
+    right: -50px;
     background-color: rgba(00, 00, 00, 0.2);
     border: none;
     cursor: pointer;
-    color: white;
     z-index: 5;
     width: fit-content;
     height: 30px;
