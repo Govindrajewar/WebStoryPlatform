@@ -130,7 +130,7 @@ function HomePage() {
           <>
             <h4>Your Stories</h4>
             {loadingUserStories ? (
-              <p className="loading-text">Loading{".".repeat(dots)}</p>
+              <p className="loading-text">Fetching Data{".".repeat(dots)}</p>
             ) : (
               <div className="stories">
                 {userStories.length === 0 ? (
@@ -202,7 +202,7 @@ function HomePage() {
         {/* Display Stories */}
         <h4>Top Stories About {selectedCategory}</h4>
         {loadingStories ? (
-          <p className="loading-text">Loading{".".repeat(dots)}</p>
+          <p className="loading-text">Fetching Data{".".repeat(dots)}</p>
         ) : (
           <div className="stories">
             {stories.length === 0 ? (
