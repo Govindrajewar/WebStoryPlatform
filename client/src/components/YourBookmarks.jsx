@@ -61,7 +61,7 @@ function YourBookmarks() {
       <h2>Your Bookmarks</h2>
       <div className="your-stories">
         {loading ? (
-          <p>Fetching Data{".".repeat(dots)}</p>
+          <p>Please wait we are fetching data{".".repeat(dots)}</p>
         ) : stories.length > 0 ? (
           stories.map((story) => {
             const imageUrl = story.slides[0]?.imageUrl;
