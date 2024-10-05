@@ -1,11 +1,11 @@
-.yourbookmarks {
+.your-bookmarks {
   height: 100vh;
   width: 100vw;
   overflow-x: hidden;
   padding-bottom: 50px;
 }
 
-.yourbookmarks h2{
+.your-bookmarks h2{
   font-size: 30px;
   font-weight: 700;
   color: #000000;

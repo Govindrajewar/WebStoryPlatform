@@ -56,7 +56,7 @@ function YourBookmarks() {
   };
 
   return (
-    <div className="yourbookmarks">
+    <div className="your-bookmarks">
       <LoginNavBar setIsLoggedIn={setIsLoggedIn} />
       <h2>Your Bookmarks</h2>
       <div className="your-stories">
