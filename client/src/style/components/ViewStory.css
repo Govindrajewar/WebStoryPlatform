@@ -78,6 +78,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  z-index: 1001;
 }
 
 .story-details h3 {
@@ -158,7 +159,7 @@
 }
 
 .highlighted {
-  color: #ffffff;
+  background-color: #ffffff;
 }
 
 .download-message {
@@ -289,8 +290,6 @@
     background: linear-gradient(0deg, #000000 59.6%, rgba(0, 0, 0, 0) 102.31%);
     display: flex;
     flex-direction: column;
-    bottom: -380px;
-    left: -90px;
   }
 
   .story-actions {

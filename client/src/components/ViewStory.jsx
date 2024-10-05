@@ -264,73 +264,9 @@ function ViewStory() {
               backgroundPosition: "center",
               backgroundRepeat: "no-repeat",
             }}
-          >
-            <div className="story-details">
-              {isDownload && (
-                <div className="download-message">Downloaded Successfully</div>
-              )}
-              <h3>{story.slides[currentSlide]?.heading}</h3>
-              <p>{story.slides[currentSlide]?.description}</p>
-              <div className="story-actions">
-                <img
-                  src={isBookmarked ? bookmarkBlue : bookmarkWhite}
-                  alt="Bookmark"
-                  className="bookmark-btn"
-                  onClick={handleYourBookmark}
-                />
-                {isLoggedIn && (
-                  <img
-                    src={isDownload ? download_done : download}
-                    alt="download"
-                    className="download-btn"
-                    onClick={handleDownloadButton}
-                  />
-                )}
-                <div className="like-btn" onClick={handleLikeButton}>
-                  <img
-                    src={isLiked ? likeRed : likeWhite}
-                    alt="like"
-                    className="likeIcon"
-                  />
-                  <div className="like-counter"> {likeCount} </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          ></div>
         ) : (
-          <div className="story-image-container">
-            <div className="story-details">
-              {isDownload && (
-                <div className="download-message">Downloaded Successfully</div>
-              )}
-              <h3>{story.slides[currentSlide]?.heading}</h3>
-              <p>{story.slides[currentSlide]?.description}</p>
-              <div className="story-actions">
-                <img
-                  src={isBookmarked ? bookmarkBlue : bookmarkWhite}
-                  alt="Bookmark"
-                  className="bookmark-btn"
-                  onClick={handleYourBookmark}
-                />
-                {isLoggedIn && (
-                  <img
-                    src={isDownload ? download_done : download}
-                    alt="download"
-                    className="download-btn"
-                    onClick={handleDownloadButton}
-                  />
-                )}
-                <div className="like-btn" onClick={handleLikeButton}>
-                  <img
-                    src={isLiked ? likeRed : likeWhite}
-                    alt="like"
-                    className="likeIcon"
-                  />
-                  <div className="like-counter"> {likeCount} </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <div className="story-image-container"></div>
         )}
       </div>
       <div
@@ -339,6 +275,39 @@ function ViewStory() {
         disabled={currentSlide === totalSlides - 1}
       >
         》
+      </div>
+
+      {/* common data */}
+      <div className="story-details">
+        {isDownload && (
+          <div className="download-message">Downloaded Successfully</div>
+        )}
+        <h3>{story.slides[currentSlide]?.heading}</h3>
+        <p>{story.slides[currentSlide]?.description}</p>
+        <div className="story-actions">
+          <img
+            src={isBookmarked ? bookmarkBlue : bookmarkWhite}
+            alt="Bookmark"
+            className="bookmark-btn"
+            onClick={handleYourBookmark}
+          />
+          {isLoggedIn && (
+            <img
+              src={isDownload ? download_done : download}
+              alt="download"
+              className="download-btn"
+              onClick={handleDownloadButton}
+            />
+          )}
+          <div className="like-btn" onClick={handleLikeButton}>
+            <img
+              src={isLiked ? likeRed : likeWhite}
+              alt="like"
+              className="likeIcon"
+            />
+            <div className="like-counter"> {likeCount} </div>
+          </div>
+        </div>
       </div>
     </div>
   );
