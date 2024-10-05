@@ -20,6 +20,9 @@ function HomePage() {
   const [isAddingStory, setIsAddingStory] = useState(false);
   const [selectedStory, setSelectedStory] = useState(null);
   const [viewStory, setViewStory] = useState(null);
+  const [loadingStories, setLoadingStories] = useState(false);
+  const [loadingUserStories, setLoadingUserStories] = useState(false);
+  const [dots, setDots] = useState(1);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -32,6 +35,7 @@ function HomePage() {
   // Fetch stories based on selected category
   useEffect(() => {
     const fetchStories = async () => {
+      setLoadingStories(true);
       try {
         let response;
         if (selectedCategory === "All") {
@@ -44,6 +48,8 @@ function HomePage() {
         setStories(response.data);
       } catch (error) {
         console.error("Error fetching stories:", error);
+      } finally {
+        setLoadingStories(false);
       }
     };
 
@@ -54,6 +60,7 @@ function HomePage() {
   useEffect(() => {
     const fetchUserStories = async () => {
       if (isLoggedIn) {
+        setLoadingUserStories(true);
         try {
           const currentUser = localStorage.getItem("currentUser");
           const response = await axios.get(
@@ -62,12 +69,22 @@ function HomePage() {
           setUserStories(response.data);
         } catch (error) {
           console.error("Error fetching user stories:", error);
+        } finally {
+          setLoadingUserStories(false);
         }
       }
     };
 
     fetchUserStories();
   }, [isLoggedIn]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setDots((prevDots) => (prevDots === 3 ? 1 : prevDots + 1));
+    }, 200);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const handleSeeMoreStories = () => {
     setVisibleStoriesCount(stories.length);
@@ -112,49 +129,55 @@ function HomePage() {
         {isLoggedIn && (
           <>
             <h4>Your Stories</h4>
-            <div className="stories">
-              {userStories.length === 0 ? (
-                <p className="no-stories">No stories available</p>
-              ) : (
-                userStories.slice(0, visibleUserStoriesCount).map((story) => {
-                  const imageUrl = story.slides[0].imageUrl;
-                  return (
-                    <div
-                      key={story._id}
-                      className={`story-card ${!imageUrl ? "no-image" : ""}`}
-                      style={{
-                        backgroundImage: imageUrl ? `url(${imageUrl})` : "none",
-                        overflow: "visible",
-                      }}
-                      onClick={() => handleViewStory(story)}
-                    >
-                      {imageUrl ? (
-                        <div className="story-data">
-                          <h3>{story.slides[0].heading}</h3>
-                          <p>{story.slides[0].description}</p>
-                        </div>
-                      ) : (
-                        <div className="no-image">
-                          <p>No image available</p>
-                        </div>
-                      )}
-                      {isLoggedIn && (
-                        <div
-                          className="edit-button"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleEditStory(story);
-                          }}
-                        >
-                          <img src={EditButton} alt="Edit Button icon" />
-                          Edit
-                        </div>
-                      )}
-                    </div>
-                  );
-                })
-              )}
-            </div>
+            {loadingUserStories ? (
+              <p className="loading-text">Please wait we are fetching data{".".repeat(dots)}</p>
+            ) : (
+              <div className="stories">
+                {userStories.length === 0 ? (
+                  <p className="no-stories">No stories available</p>
+                ) : (
+                  userStories.slice(0, visibleUserStoriesCount).map((story) => {
+                    const imageUrl = story.slides[0].imageUrl;
+                    return (
+                      <div
+                        key={story._id}
+                        className={`story-card ${!imageUrl ? "no-image" : ""}`}
+                        style={{
+                          backgroundImage: imageUrl
+                            ? `url(${imageUrl})`
+                            : "none",
+                          overflow: "visible",
+                        }}
+                        onClick={() => handleViewStory(story)}
+                      >
+                        {imageUrl ? (
+                          <div className="story-data">
+                            <h3>{story.slides[0].heading}</h3>
+                            <p>{story.slides[0].description}</p>
+                          </div>
+                        ) : (
+                          <div className="no-image">
+                            <p>No image available</p>
+                          </div>
+                        )}
+                        {isLoggedIn && (
+                          <div
+                            className="edit-button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleEditStory(story);
+                            }}
+                          >
+                            <img src={EditButton} alt="Edit Button icon" />
+                            Edit
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })
+                )}
+              </div>
+            )}
 
             {userStories.length > visibleUserStoriesCount && (
               <div className="see-more-container">
@@ -178,37 +201,41 @@ function HomePage() {
 
         {/* Display Stories */}
         <h4>Top Stories About {selectedCategory}</h4>
-        <div className="stories">
-          {stories.length === 0 ? (
-            <p className="no-stories">No stories available</p>
-          ) : (
-            stories.slice(0, visibleStoriesCount).map((story) => {
-              const imageUrl = story.slides[0].imageUrl;
-              return (
-                <div
-                  key={story._id}
-                  className={`story-card ${!imageUrl ? "no-image" : ""}`}
-                  style={{
-                    backgroundImage: imageUrl ? `url(${imageUrl})` : "none",
-                    overflow: "visible",
-                  }}
-                  onClick={() => handleViewStory(story)}
-                >
-                  {imageUrl ? (
-                    <div className="story-data">
-                      <h3>{story.slides[0].heading}</h3>
-                      <p>{story.slides[0].description}</p>
-                    </div>
-                  ) : (
-                    <div className="no-image">
-                      <p>No image available</p>
-                    </div>
-                  )}
-                </div>
-              );
-            })
-          )}
-        </div>
+        {loadingStories ? (
+          <p className="loading-text">Please wait we are fetching data{".".repeat(dots)}</p>
+        ) : (
+          <div className="stories">
+            {stories.length === 0 ? (
+              <p className="no-stories">No stories available</p>
+            ) : (
+              stories.slice(0, visibleStoriesCount).map((story) => {
+                const imageUrl = story.slides[0].imageUrl;
+                return (
+                  <div
+                    key={story._id}
+                    className={`story-card ${!imageUrl ? "no-image" : ""}`}
+                    style={{
+                      backgroundImage: imageUrl ? `url(${imageUrl})` : "none",
+                      overflow: "visible",
+                    }}
+                    onClick={() => handleViewStory(story)}
+                  >
+                    {imageUrl ? (
+                      <div className="story-data">
+                        <h3>{story.slides[0].heading}</h3>
+                        <p>{story.slides[0].description}</p>
+                      </div>
+                    ) : (
+                      <div className="no-image">
+                        <p>No image available</p>
+                      </div>
+                    )}
+                  </div>
+                );
+              })
+            )}
+          </div>
+        )}
 
         {stories.length > visibleStoriesCount && (
           <div className="see-more-container">

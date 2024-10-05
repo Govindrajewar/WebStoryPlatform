@@ -10,6 +10,8 @@ function YourBookmarks() {
   const [currentUser, setCurrentUser] = useState(null);
   // eslint-disable-next-line
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [dots, setDots] = useState(1);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -25,6 +27,7 @@ function YourBookmarks() {
     const fetchBookmarkedStories = async () => {
       if (!currentUser) return;
 
+      setLoading(true);
       try {
         const response = await axios.get(
           `${BACKEND_URL}/api/users/${currentUser}/bookmarks`
@@ -32,22 +35,34 @@ function YourBookmarks() {
         setStories(response.data);
       } catch (error) {
         console.error("Error fetching bookmarked stories:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchBookmarkedStories();
   }, [currentUser]);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setDots((prevDots) => (prevDots === 3 ? 1 : prevDots + 1));
+    }, 500);
+
+    return () => clearInterval(interval);
+  }, []);
+
   const handleViewStory = (story) => {
     navigate(`/stories/${story._id}`);
   };
 
   return (
-    <div className="yourbookmarks">
+    <div className="your-bookmarks">
       <LoginNavBar setIsLoggedIn={setIsLoggedIn} />
       <h2>Your Bookmarks</h2>
       <div className="your-stories">
-        {stories.length > 0 ? (
+        {loading ? (
+          <p>Please wait we are fetching data{".".repeat(dots)}</p>
+        ) : stories.length > 0 ? (
           stories.map((story) => {
             const imageUrl = story.slides[0]?.imageUrl;
             return (

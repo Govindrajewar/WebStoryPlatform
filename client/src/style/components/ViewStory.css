@@ -71,13 +71,14 @@
 }
 
 .story-details {
-  width: 100%;
+  width: 30vw;
   position: absolute;
   bottom: 0;
   background: linear-gradient(0deg, #000000 59.6%, rgba(0, 0, 0, 0) 102.31%);
   display: flex;
   flex-direction: column;
   align-items: center;
+  z-index: 1001;
 }
 
 .story-details h3 {
@@ -121,23 +122,17 @@
 }
 
 .close-btn {
-  position: absolute;
-  top: 50px;
-  left: 10px;
-  background-color: transparent;
   border: none;
   font-size: 30px;
   cursor: pointer;
   color: white;
   z-index: 5;
-  width: fit-content;
+  height: 30px;
+  width: 30px;
+  padding: 10px;
 }
 
 .share-btn {
-  position: absolute;
-  top: 50px;
-  right: 10px;
-  background-color: rgba(00, 00, 00, 0.2);
   border: none;
   cursor: pointer;
   z-index: 5;
@@ -146,25 +141,25 @@
   padding: 10px;
 }
 
-.slide-indicators {
-  position: absolute;
-  display: flex;
-  flex: 1;
-  justify-content: space-between;
-  width: 30%;
-  z-index: 1001;
+.slide-indicator {
+  width: 50px;
+  height: 5px;
+  background-color: #ccc;
+  margin: 0 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
 }
 
-.dash {
-  font-size: 100px;
-  color: #ccc;
-  margin: 0 20px;
-  position: relative;
-  top: -380px;
+.slide-indicators {
+  height: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
 }
 
 .highlighted {
-  color: #fff;
+  background-color: #ffffff;
 }
 
 .download-message {
@@ -175,6 +170,24 @@
   width: 100%;
   font-size: 16px;
   font-family: monospace;
+}
+
+.story-content-buttons {
+  z-index: 1005;
+  display: flex;
+  flex-direction: column;
+
+  position: absolute;
+  top: 0;
+  background: linear-gradient(180deg, #000000 59.6%, rgba(0, 0, 0, 0) 123.31%);
+  width: fit-content;
+}
+
+.content-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  width: 30vw;
 }
 
 /* For mobile phones */
@@ -231,11 +244,28 @@
     font-size: 14px;
   }
 
-  .close-btn {
+  .story-content-buttons {
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
     position: absolute;
-    top: -300px;
-    left: -60px;
-    background-color: rgba(00, 00, 00, 0.2);
+    top: 0;
+    background: linear-gradient(
+      180deg,
+      #000000 59.6%,
+      rgba(0, 0, 0, 0) 123.31%
+    );
+    z-index: 1005;
+  }
+
+  .content-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    width: 100vw;
+  }
+
+  .close-btn {
     border: none;
     font-size: 30px;
     cursor: pointer;
@@ -246,10 +276,6 @@
   }
 
   .share-btn {
-    position: absolute;
-    top: -300px;
-    right: -50px;
-    background-color: rgba(00, 00, 00, 0.2);
     border: none;
     cursor: pointer;
     z-index: 5;
@@ -259,13 +285,12 @@
   }
 
   .story-details {
-    width: 110vw;
+    width: 100%;
     position: absolute;
     background: linear-gradient(0deg, #000000 59.6%, rgba(0, 0, 0, 0) 102.31%);
     display: flex;
     flex-direction: column;
-    bottom: -380px;
-    left: -90px;
+    padding: 10px;
   }
 
   .story-actions {
@@ -277,11 +302,24 @@
     margin-bottom: 30px;
   }
 
+  .slide-indicator {
+    width: 50px;
+    height: 5px;
+    background-color: #ccc;
+    margin: 0 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+
   .slide-indicators {
-    position: absolute;
+    height: 20px;
+    width: 100%;
     display: flex;
-    flex: 1;
-    justify-content: space-between;
-    width: 80vw;
+    justify-content: space-evenly;
+    align-items: center;
+  }
+
+  .highlighted {
+    background-color: #ffffff;
   }
 }

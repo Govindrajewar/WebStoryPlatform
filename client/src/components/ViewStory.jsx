@@ -8,6 +8,7 @@ import { BACKEND_URL, FRONTEND_URL } from "../deploymentLink.js";
 import likeWhite from "../assets/ViewStory/likeWhite.png";
 import likeRed from "../assets/ViewStory/likeRed.png";
 import share from "../assets/ViewStory/share.png";
+import close from "../assets/ViewStory/close.png";
 import download from "../assets/ViewStory/download.png";
 import download_done from "../assets/ViewStory/download_done.png";
 
@@ -168,12 +169,12 @@ function ViewStory() {
 
   const renderSlideIndicators = () => {
     return [...Array(totalSlides)].map((_, index) => (
-      <span
+      <div
         key={index}
-        className={`dash ${index === currentSlide ? "highlighted" : ""}`}
-      >
-        _
-      </span>
+        className={`slide-indicator ${
+          index === currentSlide ? "highlighted" : ""
+        }`}
+      ></div>
     ));
   };
 
@@ -228,6 +229,23 @@ function ViewStory() {
       className="view-story-modal"
       style={isMobile ? mobileBackgroundStyle : {}}
     >
+      <div className="story-content-buttons">
+        <div className="slide-indicators">{renderSlideIndicators()}</div>
+        <div className="content-buttons">
+          <img
+            src={close}
+            alt="close icon"
+            className="close-btn"
+            onClick={() => navigate("/")}
+          />
+          <img
+            src={share}
+            alt="share icon"
+            className="share-btn"
+            onClick={handleCopyLink}
+          />
+        </div>
+      </div>
       {!isMobile && <div className="view-story-overlay" />}
       <div
         className="nav-arrow left-arrow"
@@ -237,9 +255,6 @@ function ViewStory() {
         《
       </div>
       <div className="view-story-content">
-        <button className="close-btn" onClick={() => navigate("/")}>
-          ✖
-        </button>
         {!isMobile ? (
           <div
             className="story-image-container"
@@ -249,80 +264,10 @@ function ViewStory() {
               backgroundPosition: "center",
               backgroundRepeat: "no-repeat",
             }}
-          >
-            <div className="story-details">
-              {isDownload && (
-                <div className="download-message">Downloaded Successfully</div>
-              )}
-              <h3>{story.slides[currentSlide]?.heading}</h3>
-              <p>{story.slides[currentSlide]?.description}</p>
-              <div className="story-actions">
-                <img
-                  src={isBookmarked ? bookmarkBlue : bookmarkWhite}
-                  alt="Bookmark"
-                  className="bookmark-btn"
-                  onClick={handleYourBookmark}
-                />
-                {isLoggedIn && (
-                  <img
-                    src={isDownload ? download_done : download}
-                    alt="download"
-                    className="download-btn"
-                    onClick={handleDownloadButton}
-                  />
-                )}
-                <div className="like-btn" onClick={handleLikeButton}>
-                  <img
-                    src={isLiked ? likeRed : likeWhite}
-                    alt="like"
-                    className="likeIcon"
-                  />
-                  <div className="like-counter"> {likeCount} </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          ></div>
         ) : (
-          <div className="story-image-container">
-            <div className="story-details">
-              {isDownload && (
-                <div className="download-message">Downloaded Successfully</div>
-              )}
-              <h3>{story.slides[currentSlide]?.heading}</h3>
-              <p>{story.slides[currentSlide]?.description}</p>
-              <div className="story-actions">
-                <img
-                  src={isBookmarked ? bookmarkBlue : bookmarkWhite}
-                  alt="Bookmark"
-                  className="bookmark-btn"
-                  onClick={handleYourBookmark}
-                />
-                {isLoggedIn && (
-                  <img
-                    src={isDownload ? download_done : download}
-                    alt="download"
-                    className="download-btn"
-                    onClick={handleDownloadButton}
-                  />
-                )}
-                <div className="like-btn" onClick={handleLikeButton}>
-                  <img
-                    src={isLiked ? likeRed : likeWhite}
-                    alt="like"
-                    className="likeIcon"
-                  />
-                  <div className="like-counter"> {likeCount} </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <div className="story-image-container"></div>
         )}
-        <img
-          src={share}
-          alt="share icon"
-          className="share-btn"
-          onClick={handleCopyLink}
-        />
       </div>
       <div
         className="nav-arrow right-arrow"
@@ -331,7 +276,39 @@ function ViewStory() {
       >
         》
       </div>
-      <div className="slide-indicators">{renderSlideIndicators()}</div>
+
+      {/* common data */}
+      <div className="story-details">
+        {isDownload && (
+          <div className="download-message">Downloaded Successfully</div>
+        )}
+        <h3>{story.slides[currentSlide]?.heading}</h3>
+        <p>{story.slides[currentSlide]?.description}</p>
+        <div className="story-actions">
+          <img
+            src={isBookmarked ? bookmarkBlue : bookmarkWhite}
+            alt="Bookmark"
+            className="bookmark-btn"
+            onClick={handleYourBookmark}
+          />
+          {isLoggedIn && (
+            <img
+              src={isDownload ? download_done : download}
+              alt="download"
+              className="download-btn"
+              onClick={handleDownloadButton}
+            />
+          )}
+          <div className="like-btn" onClick={handleLikeButton}>
+            <img
+              src={isLiked ? likeRed : likeWhite}
+              alt="like"
+              className="likeIcon"
+            />
+            <div className="like-counter"> {likeCount} </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
