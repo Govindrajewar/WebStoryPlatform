@@ -168,14 +168,13 @@ function ViewStory() {
 
   const renderSlideIndicators = () => {
     return [...Array(totalSlides)].map((_, index) => (
-      <span
+      <div
         key={index}
-        className={`dash ${index === currentSlide ? "highlighted" : ""}`}
-      >
-        _
-      </span>
+        className={`slide-indicator ${index === currentSlide ? "highlighted" : ""}`}
+      ></div>
     ));
   };
+
 
   const handleDownloadButton = async () => {
     const imageUrl = story.slides[currentSlide]?.imageUrl;
