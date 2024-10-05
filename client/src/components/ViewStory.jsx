@@ -8,6 +8,7 @@ import { BACKEND_URL, FRONTEND_URL } from "../deploymentLink.js";
 import likeWhite from "../assets/ViewStory/likeWhite.png";
 import likeRed from "../assets/ViewStory/likeRed.png";
 import share from "../assets/ViewStory/share.png";
+import close from "../assets/ViewStory/close.png";
 import download from "../assets/ViewStory/download.png";
 import download_done from "../assets/ViewStory/download_done.png";
 
@@ -170,11 +171,12 @@ function ViewStory() {
     return [...Array(totalSlides)].map((_, index) => (
       <div
         key={index}
-        className={`slide-indicator ${index === currentSlide ? "highlighted" : ""}`}
+        className={`slide-indicator ${
+          index === currentSlide ? "highlighted" : ""
+        }`}
       ></div>
     ));
   };
-
 
   const handleDownloadButton = async () => {
     const imageUrl = story.slides[currentSlide]?.imageUrl;
@@ -227,6 +229,23 @@ function ViewStory() {
       className="view-story-modal"
       style={isMobile ? mobileBackgroundStyle : {}}
     >
+      <div className="story-content-buttons">
+        <div className="slide-indicators">{renderSlideIndicators()}</div>
+        <div className="content-buttons">
+          <img
+            src={close}
+            alt="close icon"
+            className="close-btn"
+            onClick={() => navigate("/")}
+          />
+          <img
+            src={share}
+            alt="share icon"
+            className="share-btn"
+            onClick={handleCopyLink}
+          />
+        </div>
+      </div>
       {!isMobile && <div className="view-story-overlay" />}
       <div
         className="nav-arrow left-arrow"
@@ -236,9 +255,6 @@ function ViewStory() {
         《
       </div>
       <div className="view-story-content">
-        <button className="close-btn" onClick={() => navigate("/")}>
-          ✖
-        </button>
         {!isMobile ? (
           <div
             className="story-image-container"
@@ -316,12 +332,6 @@ function ViewStory() {
             </div>
           </div>
         )}
-        <img
-          src={share}
-          alt="share icon"
-          className="share-btn"
-          onClick={handleCopyLink}
-        />
       </div>
       <div
         className="nav-arrow right-arrow"
@@ -330,7 +340,6 @@ function ViewStory() {
       >
         》
       </div>
-      <div className="slide-indicators">{renderSlideIndicators()}</div>
     </div>
   );
 }
